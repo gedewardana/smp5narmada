@@ -1,0 +1,582 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model agama {
+  id_agama                Int                       @id @default(autoincrement()) @db.TinyInt
+  nama                    String                    @unique(map: "nama") @db.VarChar(30)
+  identitas_peserta_didik identitas_peserta_didik[]
+}
+
+model ayah {
+  id_ayah                    Int                     @id @default(autoincrement())
+  id_identitas_peserta_didik Int                     @unique(map: "id_identitas_peserta_didik")
+  nama                       String                  @db.VarChar(120)
+  tahun_lahir                Int                     @db.SmallInt
+  pekerjaan_ayah             Int                     @db.SmallInt
+  pendidikan_ayah            Int                     @db.SmallInt
+  penghasilan_bulanan_ayah   Int                     @db.TinyInt
+  kebutuhan_khusus_ayah      Int                     @db.TinyInt
+  disimpan_pada              DateTime?               @db.Timestamp(0)
+  diperbaharui_pada          DateTime?               @db.Timestamp(0)
+  identitas_peserta_didik    identitas_peserta_didik @relation(fields: [id_identitas_peserta_didik], references: [id_identitas_peserta_didik], onDelete: Cascade, onUpdate: Restrict, map: "ayah_ibfk_1")
+  pekerjaan                  pekerjaan               @relation(fields: [pekerjaan_ayah], references: [id_pekerjaan], onUpdate: Restrict, map: "ayah_ibfk_2")
+  pendidikan                 pendidikan              @relation(fields: [pendidikan_ayah], references: [id_pendidikan], onUpdate: Restrict, map: "ayah_ibfk_3")
+  penghasilan_bulanan        penghasilan_bulanan     @relation(fields: [penghasilan_bulanan_ayah], references: [id_penghasilan], onUpdate: Restrict, map: "ayah_ibfk_4")
+  kebutuhan_khusus           kebutuhan_khusus        @relation(fields: [kebutuhan_khusus_ayah], references: [id_kebutuhan], onUpdate: Restrict, map: "ayah_ibfk_5")
+
+  @@index([kebutuhan_khusus_ayah], map: "kebutuhan_khusus_ayah")
+  @@index([pekerjaan_ayah], map: "pekerjaan_ayah")
+  @@index([pendidikan_ayah], map: "pendidikan_ayah")
+  @@index([penghasilan_bulanan_ayah], map: "penghasilan_bulanan_ayah")
+}
+
+model berkas_daftar_ulang {
+  id_berkas_daftar_ulang    Int                                           @id @default(autoincrement()) @db.UnsignedInt
+  id_daftar_ulang           Int
+  jenis_berkas_daftar_ulang berkas_daftar_ulang_jenis_berkas_daftar_ulang
+  nama_file                 String                                        @db.VarChar(255)
+  path_file                 String                                        @db.VarChar(255)
+  mandatory                 Boolean?                                      @default(true)
+  status_upload             berkas_daftar_ulang_status_upload?            @default(BELUM_DIUNGGAH)
+  diunggah_pada             DateTime                                      @default(now()) @db.Timestamp(0)
+  diperbaharui_pada         DateTime?                                     @db.Timestamp(0)
+  daftar_ulang              daftar_ulang                                  @relation(fields: [id_daftar_ulang], references: [id_daftar_ulang], onDelete: Cascade, onUpdate: Restrict, map: "berkas_daftar_ulang_ibfk_1")
+
+  @@unique([id_daftar_ulang, jenis_berkas_daftar_ulang], map: "uniq_daftarulang_jenis")
+  @@index([id_daftar_ulang], map: "idx_daftar_ulang")
+  @@index([status_upload], map: "idx_status")
+}
+
+model berkas_persyaratan {
+  id_berkas         Int                               @id @default(autoincrement())
+  id_pendaftaran    Int
+  jenis_berkas      berkas_persyaratan_jenis_berkas
+  nama_file         String                            @db.VarChar(255)
+  path_file         String                            @db.VarChar(255)
+  mandatory         Boolean?                          @default(true)
+  status_upload     berkas_persyaratan_status_upload? @default(PENDING)
+  diunggah_pada     DateTime                          @default(now()) @db.Timestamp(0)
+  diperbaharui_pada DateTime?                         @db.Timestamp(0)
+  pendaftaran       pendaftaran                       @relation(fields: [id_pendaftaran], references: [id_pendaftaran], onDelete: Cascade, onUpdate: Restrict, map: "berkas_persyaratan_ibfk_1")
+
+  @@unique([id_pendaftaran, jenis_berkas], map: "uniq_pendaftaran_jenis")
+  @@index([status_upload], map: "idx_status")
+}
+
+model daftar_ulang {
+  id_daftar_ulang      Int                              @id @default(autoincrement())
+  id_pengumuman        Int                              @unique(map: "id_pengumuman")
+  status_daftar_ulang  daftar_ulang_status_daftar_ulang @default(BELUM)
+  diinput_oleh         Int?
+  tanggal_daftar_ulang DateTime?                        @default(now()) @db.Timestamp(0)
+  diperbaharui_pada    DateTime?                        @default(now()) @db.Timestamp(0)
+  berkas_daftar_ulang  berkas_daftar_ulang[]
+  pengumuman           pengumuman                       @relation(fields: [id_pengumuman], references: [id_pengumuman], map: "daftar_ulang_ibfk_2")
+  pengguna             user?                            @relation(fields: [diinput_oleh], references: [id_pengguna], onDelete: Restrict, onUpdate: Restrict, map: "diinput_oleh")
+
+  @@index([diinput_oleh], map: "idx_input_oleh")
+}
+
+model dusun {
+  id_dusun     Int       @id @default(autoincrement())
+  id_kelurahan Int
+  nama_dusun   String    @db.VarChar(100)
+  kelurahan    kelurahan @relation(fields: [id_kelurahan], references: [id_kelurahan], onDelete: Cascade, onUpdate: Restrict, map: "dusun_ibfk_1")
+
+  @@index([id_kelurahan], map: "dusun_ibfk_1")
+}
+
+model hak_akses {
+  id_hak_akses Int                   @id @default(autoincrement())
+  id_pengguna  Int
+  id_menu      Int
+  level_akses  hak_akses_level_akses @default(READ)
+  dibuat_pada  DateTime              @default(now()) @db.Timestamp(0)
+  pengguna     user                  @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: Cascade, onUpdate: Restrict, map: "hak_akses_ibfk_1")
+  menu         menu                  @relation(fields: [id_menu], references: [id_menu], onDelete: Cascade, onUpdate: Restrict, map: "hak_akses_ibfk_2")
+
+  @@unique([id_pengguna, id_menu], map: "unik_user_menu")
+  @@index([id_menu], map: "id_menu")
+}
+
+model ibu {
+  id_ibu                     Int                     @id @default(autoincrement())
+  id_identitas_peserta_didik Int                     @unique(map: "id_identitas_peserta_didik")
+  nama                       String                  @db.VarChar(120)
+  tahun_lahir                Int                     @db.SmallInt
+  kebutuhan_khusus_ibu       Int                     @db.TinyInt
+  pekerjaan_ibu              Int                     @db.SmallInt
+  pendidikan_ibu             Int                     @db.SmallInt
+  penghasilan_bulanan_ibu    Int                     @db.TinyInt
+  disimpan_pada              DateTime?               @db.Timestamp(0)
+  diperbaharui_pada          DateTime?               @db.Timestamp(0)
+  identitas_peserta_didik    identitas_peserta_didik @relation(fields: [id_identitas_peserta_didik], references: [id_identitas_peserta_didik], onDelete: Cascade, onUpdate: Restrict, map: "ibu_ibfk_1")
+  kebutuhan_khusus           kebutuhan_khusus        @relation(fields: [kebutuhan_khusus_ibu], references: [id_kebutuhan], onUpdate: Restrict, map: "ibu_ibfk_2")
+  pekerjaan                  pekerjaan               @relation(fields: [pekerjaan_ibu], references: [id_pekerjaan], onUpdate: Restrict, map: "ibu_ibfk_3")
+  pendidikan                 pendidikan              @relation(fields: [pendidikan_ibu], references: [id_pendidikan], onUpdate: Restrict, map: "ibu_ibfk_4")
+  penghasilan_bulanan        penghasilan_bulanan     @relation(fields: [penghasilan_bulanan_ibu], references: [id_penghasilan], onUpdate: Restrict, map: "ibu_ibfk_5")
+
+  @@index([kebutuhan_khusus_ibu], map: "kebutuhan_khusus_ibu")
+  @@index([pekerjaan_ibu], map: "pekerjaan_ibu")
+  @@index([pendidikan_ibu], map: "pendidikan_ibu")
+  @@index([penghasilan_bulanan_ibu], map: "penghasilan_bulanan_ibu")
+}
+
+model identitas_peserta_didik {
+  id_identitas_peserta_didik Int               @id @default(autoincrement())
+  id_pendaftaran             Int               @unique(map: "id_pendaftaran")
+  nisn                       String            @unique(map: "nisn") @db.VarChar(20)
+  nis                        String            @db.VarChar(20)
+  nama_lengkap               String            @db.VarChar(120)
+  id_jenis_kelamin           Int               @db.TinyInt
+  no_ijazah                  String?           @db.VarChar(50)
+  no_skhun                   String            @db.VarChar(50)
+  nilai_skhu                 Decimal           @db.Decimal(5, 2)
+  no_un                      String            @db.VarChar(30)
+  nik                        String            @unique(map: "nik") @db.VarChar(20)
+  id_sekolah                 Int
+  tempat_lahir               String            @db.VarChar(80)
+  tanggal_lahir              DateTime          @db.Date
+  id_agama                   Int               @db.TinyInt
+  anak_ke                    Int               @db.TinyInt
+  saudara_kandung            Int?              @default(0) @db.TinyInt
+  saudara_tiri               Int?              @default(0) @db.TinyInt
+  saudara_angkat             Int?              @default(0) @db.TinyInt
+  id_kebutuhan_khusus        Int?              @db.TinyInt
+  id_transportasi            Int               @db.TinyInt
+  id_jenis_tinggal           Int               @db.TinyInt
+  telp_rumah                 String?           @db.VarChar(20)
+  email_pribadi              String?           @db.VarChar(120)
+  no_kks                     String?           @db.VarChar(30)
+  penerima_kps_pkh           Boolean?          @default(false)
+  penerima_kip               Boolean?          @default(false)
+  nama_di_kip                String?           @db.VarChar(120)
+  no_kip                     String?           @db.Char(6)
+  no_reg_akta_lahir          String            @unique(map: "no_reg_akte_kelahiran") @db.VarChar(40)
+  alamat_tempat_tinggal      String            @db.VarChar(255)
+  rt                         String?           @db.VarChar(5)
+  rw                         String?           @db.VarChar(5)
+  disimpan_pada              DateTime          @default(now()) @db.Timestamp(0)
+  diperbaharui_pada          DateTime          @default(now()) @db.Timestamp(0)
+  id_kelurahan               Int
+  dusun                      String            @db.VarChar(50)
+  ayah                       ayah?
+  ibu                        ibu?
+  jenis_kelamin              jenis_kelamin     @relation(fields: [id_jenis_kelamin], references: [id_jenis_kelamin], onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_1")
+  kelurahan                  kelurahan         @relation(fields: [id_kelurahan], references: [id_kelurahan], onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_10")
+  agama                      agama             @relation(fields: [id_agama], references: [id_agama], onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_2")
+  kebutuhan_khusus           kebutuhan_khusus? @relation(fields: [id_kebutuhan_khusus], references: [id_kebutuhan], onDelete: Restrict, onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_3")
+  transportasi               transportasi      @relation(fields: [id_transportasi], references: [id_transportasi], onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_4")
+  sekolah_asal               sekolah_asal      @relation(fields: [id_sekolah], references: [id_sekolah], onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_6")
+  jenis_tinggal              jenis_tinggal     @relation(fields: [id_jenis_tinggal], references: [id_jenis_tinggal], onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_7")
+  pendaftaran                pendaftaran       @relation(fields: [id_pendaftaran], references: [id_pendaftaran], onUpdate: Restrict, map: "identitas_peserta_didik_ibfk_9")
+  periodik                   periodik?
+  prestasi                   prestasi[]
+  wali                       wali?
+
+  @@index([id_agama], map: "id_agama")
+  @@index([id_jenis_kelamin], map: "id_jenis_kelamin")
+  @@index([id_jenis_tinggal], map: "id_jenis_tinggal")
+  @@index([id_kebutuhan_khusus], map: "id_kebutuhan_khusus")
+  @@index([id_sekolah], map: "id_sekolah")
+  @@index([id_transportasi], map: "id_transportasi")
+  @@index([nama_lengkap], map: "idx_nama")
+  @@index([nisn], map: "idx_nisn")
+  @@index([id_kelurahan], map: "id_kelurahan")
+}
+
+model jadwal_pmb {
+  id_jadwal                 Int                               @id @default(autoincrement())
+  daya_tampung_murid        Int
+  status_jadwal             jadwal_pmb_status_jadwal          @default(BELUM_DIBUKA)
+  pendaftaran_mulai         DateTime                          @db.Date
+  pendaftaran_selesai       DateTime                          @db.Date
+  pengumuman                DateTime                          @db.Date
+  pendaftaran_ulang_mulai   DateTime                          @db.Date
+  pendaftaran_ulang_selesai DateTime                          @db.Date
+  masa_pengenalan_mulai     DateTime                          @db.Date
+  masa_pengenalan_selesai   DateTime                          @db.Date
+  dibuat_oleh               Int?
+  dibuat_pada               DateTime                          @default(now()) @db.Timestamp(0)
+  diperbaharui_pada         DateTime?                         @default(now()) @db.Timestamp(0)
+  tahun_ajaran              String                            @unique(map: "idx_jadwal_tahun") @db.VarChar(10)
+  mode_pendaftaran          jadwal_pmb_mode_pendaftaran       @default(ONLINE)
+  mode_pengumuman           jadwal_pmb_mode_pengumuman        @default(ONLINE)
+  mode_pendaftaran_ulang    jadwal_pmb_mode_pendaftaran_ulang @default(OFFLINE)
+  mode_pengenalan           jadwal_pmb_mode_pengenalan        @default(OFFLINE)
+  is_active                 Boolean
+  pengguna                  user?                             @relation(fields: [dibuat_oleh], references: [id_pengguna], onDelete: Restrict, map: "fk_id_pengguna")
+  pendaftaran               pendaftaran[]
+
+  @@index([dibuat_oleh], map: "idx_pengguna_panitia")
+}
+
+model jenis_kelamin {
+  id_jenis_kelamin        Int                       @id @default(autoincrement()) @db.TinyInt
+  nama                    String                    @unique(map: "nama") @db.VarChar(20)
+  identitas_peserta_didik identitas_peserta_didik[]
+}
+
+model jenis_tinggal {
+  id_jenis_tinggal        Int                       @id @default(autoincrement()) @db.TinyInt
+  nama                    String                    @unique(map: "nama") @db.VarChar(30)
+  identitas_peserta_didik identitas_peserta_didik[]
+}
+
+model kabupaten {
+  id_kabupaten   Int         @id @default(autoincrement())
+  id_provinsi    Int
+  nama_kabupaten String      @db.VarChar(100)
+  provinsi       provinsi    @relation(fields: [id_provinsi], references: [id_provinsi], onDelete: Cascade, onUpdate: Restrict, map: "kabupaten_ibfk_1")
+  kecamatan      kecamatan[]
+
+  @@index([id_provinsi], map: "kabupaten_ibfk_1")
+}
+
+model kebutuhan_khusus {
+  id_kebutuhan            Int                       @id @default(autoincrement()) @db.TinyInt
+  nama                    String                    @unique(map: "nama") @db.VarChar(50)
+  ayah                    ayah[]
+  ibu                     ibu[]
+  identitas_peserta_didik identitas_peserta_didik[]
+  wali                    wali[]
+}
+
+model kecamatan {
+  id_kecamatan   Int         @id @default(autoincrement())
+  id_kabupaten   Int
+  nama_kecamatan String      @db.VarChar(100)
+  kabupaten      kabupaten   @relation(fields: [id_kabupaten], references: [id_kabupaten], onDelete: Cascade, onUpdate: Restrict, map: "kecamatan_ibfk_1")
+  kelurahan      kelurahan[]
+
+  @@index([id_kabupaten], map: "kecamatan_ibfk_1")
+}
+
+model kelurahan {
+  id_kelurahan            Int                       @id @default(autoincrement())
+  id_kecamatan            Int
+  kelurahan_desa          String                    @db.VarChar(100)
+  kode_pos                String?                   @db.VarChar(10)
+  dusun                   dusun[]
+  identitas_peserta_didik identitas_peserta_didik[]
+  kecamatan               kecamatan                 @relation(fields: [id_kecamatan], references: [id_kecamatan], onDelete: Cascade, onUpdate: Restrict, map: "kelurahan_ibfk_1")
+
+  @@index([id_kecamatan], map: "kelurahan_ibfk_1")
+}
+
+model log_aktivitas {
+  id_aktivitas   Int      @id @default(autoincrement())
+  id_pengguna    Int
+  role_pengguna  String   @db.VarChar(50)
+  aksi           String   @db.VarChar(100)
+  modul          String   @db.VarChar(100)
+  deskripsi      String?  @db.Text
+  reference_id   Int?
+  reference_type String?  @db.VarChar(50)
+  ip_address     String?  @db.VarChar(45)
+  user_agent     String?  @db.VarChar(255)
+  dibuat_pada    DateTime @default(now()) @db.Timestamp(0)
+  pengguna       user     @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: Cascade, map: "log_aktivitas_fk_user")
+
+  @@index([modul, aksi], map: "idx_aktivitas_modul")
+  @@index([role_pengguna], map: "idx_aktivitas_role")
+  @@index([dibuat_pada], map: "idx_aktivitas_tanggal")
+  @@index([id_pengguna], map: "idx_aktivitas_user")
+}
+
+model menu {
+  id_menu   Int         @id @default(autoincrement())
+  kode_menu String      @unique(map: "kode_menu") @db.VarChar(50)
+  nama_menu String      @db.VarChar(100)
+  deskripsi String?     @db.VarChar(255)
+  hak_akses hak_akses[]
+}
+
+model notifikasi {
+  id_notif       Int      @id @default(autoincrement())
+  id_pengguna    Int
+  reference_id   Int?
+  reference_type String?  @db.VarChar(50)
+  judul          String   @db.VarChar(100)
+  pesan          String   @db.Text
+  kategori       String?  @default("INFO") @db.VarChar(50)
+  is_read        Boolean? @default(false)
+  tautan_aksi    String?  @db.VarChar(255)
+  dibuat_pada    DateTime @default(now()) @db.Timestamp(0)
+  pengguna       user     @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: Cascade, map: "log_notifikasi_fk_user")
+
+  @@index([reference_id, reference_type], map: "idx_ref")
+  @@index([id_pengguna], map: "idx_user")
+}
+
+model pekerjaan {
+  id_pekerjaan Int    @id @default(autoincrement()) @db.SmallInt
+  nama         String @unique(map: "nama") @db.VarChar(80)
+  ayah         ayah[]
+  ibu          ibu[]
+  wali         wali[]
+}
+
+model pendaftaran {
+  id_pendaftaran                                   Int                            @id @default(autoincrement())
+  id_pengguna                                      Int
+  nomor_pendaftaran                                String?                        @unique(map: "nomor_pendaftaran") @db.VarChar(50)
+  tanggal_submit                                   DateTime?                      @default(now()) @db.Timestamp(0)
+  tanggal_verifikasi                               DateTime?                      @db.Timestamp(0)
+  diverifikasi_oleh                                Int?
+  catatan                                          String?                        @db.Text
+  tahun_ajaran                                     Int
+  jalur_pendaftaran                                pendaftaran_jalur_pendaftaran  @default(ZONASI)
+  diperbaharui_pada                                DateTime?                      @db.Timestamp(0)
+  status_pendaftaran                               pendaftaran_status_pendaftaran @default(DRAFT)
+  status_verifikasi                                pendaftaran_status_verifikasi  @default(BELUM_DIVERIFIKASI)
+  skipped_steps                                    String?                        @db.Text
+  berkas_persyaratan                               berkas_persyaratan[]
+  identitas_peserta_didik                          identitas_peserta_didik?
+  pengguna_pendaftaran_id_penggunaTopengguna       user                           @relation("pendaftaran_id_penggunaTopengguna", fields: [id_pengguna], references: [id_pengguna], onDelete: Cascade, onUpdate: Restrict, map: "pendaftaran_ibfk_1")
+  pengguna_pendaftaran_diverifikasi_olehTopengguna user?                          @relation("pendaftaran_diverifikasi_olehTopengguna", fields: [diverifikasi_oleh], references: [id_pengguna], onDelete: Restrict, onUpdate: Restrict, map: "pendaftaran_ibfk_2")
+  jadwal_pmb                                       jadwal_pmb                     @relation(fields: [tahun_ajaran], references: [id_jadwal], map: "pendaftaran_ibfk_3")
+  pengumuman                                       pengumuman?
+
+  @@index([diverifikasi_oleh], map: "diverifikasi_oleh")
+  @@index([tahun_ajaran], map: "idx_pendaftaran_tahun")
+  @@index([id_pengguna], map: "idx_pengguna")
+  @@index([status_verifikasi], map: "idx_status")
+}
+
+model pendidikan {
+  id_pendidikan Int    @id @default(autoincrement()) @db.SmallInt
+  nama          String @unique(map: "nama") @db.VarChar(80)
+  ayah          ayah[]
+  ibu           ibu[]
+  wali          wali[]
+}
+
+model penghasilan_bulanan {
+  id_penghasilan      Int    @id @default(autoincrement()) @db.TinyInt
+  rentang_penghasilan String @db.VarChar(50)
+  urutan              Int    @db.TinyInt
+  ayah                ayah[]
+  ibu                 ibu[]
+  wali                wali[]
+}
+
+model pengumuman {
+  id_pengumuman            Int                                 @id @default(autoincrement())
+  id_pendaftaran           Int                                 @unique(map: "id_pendaftaran")
+  pengumuman_hasil_seleksi pengumuman_pengumuman_hasil_seleksi @default(MENUNGGU_PENGUMUMAN)
+  catatan                  String?                             @db.Text
+  diumumkan_oleh           Int?
+  dibuat_pada              DateTime                            @default(now()) @db.Timestamp(0)
+  diperbaharui_pada        DateTime?                           @default(now()) @db.Timestamp(0)
+  daftar_ulang             daftar_ulang?
+  pendaftaran              pendaftaran                         @relation(fields: [id_pendaftaran], references: [id_pendaftaran], onDelete: Cascade, onUpdate: Restrict, map: "pengumuman_ibfk_2")
+  pengguna                 user?                               @relation(fields: [diumumkan_oleh], references: [id_pengguna], onDelete: Restrict, onUpdate: Restrict, map: "pengumuman_ibfk_3")
+
+  @@index([diumumkan_oleh], map: "diumumkan_oleh")
+  @@index([pengumuman_hasil_seleksi], map: "idx_status")
+}
+
+model periodik {
+  id_periodik                    Int                     @id @default(autoincrement())
+  id_identitas_peserta_didik     Int                     @unique(map: "siswa_id")
+  tinggi_badan                   Decimal                 @db.Decimal(5, 2)
+  berat_badan                    Decimal                 @db.Decimal(5, 2)
+  jarak_tempat_tinggal_kesekolah Decimal                 @db.Decimal(5, 2)
+  waktu_tempuh_berangkat_sekolah Int
+  disimpan_pada                  DateTime?               @db.Timestamp(0)
+  diperbaharui_pada              DateTime?               @db.Timestamp(0)
+  identitas_peserta_didik        identitas_peserta_didik @relation(fields: [id_identitas_peserta_didik], references: [id_identitas_peserta_didik], onDelete: Cascade, onUpdate: Restrict, map: "periodik_ibfk_1")
+}
+
+model prestasi {
+  id_prestasi                Int                     @id @default(autoincrement())
+  id_identitas_peserta_didik Int
+  jenis_prestasi             String                  @db.VarChar(50)
+  tingkat_prestasi           String                  @db.VarChar(50)
+  nama_prestasi              String                  @db.VarChar(120)
+  tahun_prestasi             Int                     @db.SmallInt
+  penyelenggara_prestasi     String?                 @db.VarChar(120)
+  bukti_prestasi             String?                 @db.VarChar(255)
+  disimpan_pada              DateTime?               @db.Timestamp(0)
+  diperbaharui_pada          DateTime?               @db.Timestamp(0)
+  identitas_peserta_didik    identitas_peserta_didik @relation(fields: [id_identitas_peserta_didik], references: [id_identitas_peserta_didik], onDelete: Cascade, onUpdate: Restrict, map: "prestasi_ibfk_1")
+
+  @@index([id_identitas_peserta_didik], map: "idx_siswa")
+}
+
+model provinsi {
+  id_provinsi   Int         @id @default(autoincrement())
+  nama_provinsi String      @db.VarChar(100)
+  kabupaten     kabupaten[]
+}
+
+model sekolah_asal {
+  id_sekolah              Int                       @id @default(autoincrement())
+  npsn                    String                    @unique(map: "npsn") @db.VarChar(15)
+  nama_sekolah            String                    @db.VarChar(120)
+  identitas_peserta_didik identitas_peserta_didik[]
+
+  @@index([id_sekolah, npsn], map: "id_sekolah")
+}
+
+model transportasi {
+  id_transportasi         Int                       @id @default(autoincrement()) @db.TinyInt
+  nama                    String                    @unique(map: "nama") @db.VarChar(50)
+  identitas_peserta_didik identitas_peserta_didik[]
+}
+
+model wali {
+  id_wali                    Int                     @id @default(autoincrement())
+  id_identitas_peserta_didik Int                     @unique(map: "id_identitas_peserta_didik")
+  nama                       String                  @db.VarChar(120)
+  tahun_lahir                Int                     @db.SmallInt
+  pekerjaan_wali             Int                     @db.SmallInt
+  pendidikan_wali            Int                     @db.SmallInt
+  penghasilan_bulanan_wali   Int                     @db.TinyInt
+  kebutuhan_khusus_wali      Int                     @db.TinyInt
+  disimpan_pada              DateTime?               @db.Timestamp(0)
+  diperbaharui_pada          DateTime?               @db.Timestamp(0)
+  identitas_peserta_didik    identitas_peserta_didik @relation(fields: [id_identitas_peserta_didik], references: [id_identitas_peserta_didik], onDelete: Cascade, onUpdate: Restrict, map: "wali_ibfk_1")
+  pekerjaan                  pekerjaan               @relation(fields: [pekerjaan_wali], references: [id_pekerjaan], onUpdate: Restrict, map: "wali_ibfk_2")
+  pendidikan                 pendidikan              @relation(fields: [pendidikan_wali], references: [id_pendidikan], onUpdate: Restrict, map: "wali_ibfk_3")
+  penghasilan_bulanan        penghasilan_bulanan     @relation(fields: [penghasilan_bulanan_wali], references: [id_penghasilan], onUpdate: Restrict, map: "wali_ibfk_4")
+  kebutuhan_khusus           kebutuhan_khusus        @relation(fields: [kebutuhan_khusus_wali], references: [id_kebutuhan], onUpdate: Restrict, map: "wali_ibfk_5")
+
+  @@index([kebutuhan_khusus_wali], map: "kebutuhan_khusus_wali")
+  @@index([pekerjaan_wali], map: "pekerjaan_wali")
+  @@index([pendidikan_wali], map: "pendidikan_wali")
+  @@index([penghasilan_bulanan_wali], map: "penghasilan_bulanan_wali")
+}
+
+model user {
+  id_pengguna                                         Int              @id @default(autoincrement())
+  nama_lengkap                                        String           @db.VarChar(120)
+  email                                               String           @unique(map: "idx_email") @db.VarChar(50)
+  password                                            String           @db.VarChar(255)
+  role                                                user_role        @default(USER)
+  status_akun                                         user_status_akun @default(AKTIF)
+  dibuat_pada                                         DateTime         @default(now()) @db.Timestamp(0)
+  diperbaharui_pada                                   DateTime?        @default(now()) @db.Timestamp(0)
+  reset_token                                         String?          @db.VarChar(255)
+  reset_token_expires                                 DateTime?        @db.Timestamp(0)
+  daftar_ulang                                        daftar_ulang[]
+  hak_akses                                           hak_akses[]
+  jadwal_pmb                                          jadwal_pmb[]
+  log_aktivitas                                       log_aktivitas[]
+  notifikasi                                          notifikasi[]
+  pendaftaran_pendaftaran_id_penggunaTopengguna       pendaftaran[]    @relation("pendaftaran_id_penggunaTopengguna")
+  pendaftaran_pendaftaran_diverifikasi_olehTopengguna pendaftaran[]    @relation("pendaftaran_diverifikasi_olehTopengguna")
+  pengumuman                                          pengumuman[]
+
+  @@index([role], map: "idx_role")
+  @@index([status_akun], map: "idx_status")
+  @@index([nama_lengkap], map: "idx_nama_lengkap")
+}
+
+enum berkas_daftar_ulang_jenis_berkas_daftar_ulang {
+  SURAT_TERIMA
+  PERNYATAAN_ORTU
+  PERNYATAAN_SISWA
+}
+
+enum berkas_persyaratan_jenis_berkas {
+  PASFOTO
+  AKTA
+  KK
+  SKL
+  KTP_AYAH
+  KTP_IBU
+  KIP
+  PIAGAM_1
+  PIAGAM_2
+  PIAGAM_3
+}
+
+enum jadwal_pmb_status_jadwal {
+  DIBUKA
+  DITUTUP
+  BELUM_DIBUKA
+}
+
+enum hak_akses_level_akses {
+  READ
+  FULL
+}
+
+enum berkas_daftar_ulang_status_upload {
+  BELUM_DIUNGGAH
+  SUDAH_DIUNGGAH
+}
+
+enum pendaftaran_jalur_pendaftaran {
+  ZONASI
+}
+
+enum user_role {
+  ADMIN
+  USER
+}
+
+enum user_status_akun {
+  AKTIF
+  NONAKTIF
+  DIBLOKIR
+}
+
+enum pendaftaran_status_pendaftaran {
+  SUBMITTED
+  DRAFT
+}
+
+enum jadwal_pmb_mode_pendaftaran {
+  ONLINE
+  OFFLINE
+}
+
+enum jadwal_pmb_mode_pengenalan {
+  ONLINE
+  OFFLINE
+}
+
+enum jadwal_pmb_mode_pendaftaran_ulang {
+  ONLINE
+  OFFLINE
+}
+
+enum jadwal_pmb_mode_pengumuman {
+  ONLINE
+  OFFLINE
+}
+
+enum pengumuman_pengumuman_hasil_seleksi {
+  MENUNGGU_PENGUMUMAN
+  DITERIMA
+  TIDAK_DITERIMA
+}
+
+enum pendaftaran_status_verifikasi {
+  VERIFIKASI
+  TOLAK
+  MENUNGGU_VERIFIKASI
+  BELUM_DIVERIFIKASI
+  PERLU_PERBAIKAN
+}
+
+enum daftar_ulang_status_daftar_ulang {
+  SUDAH
+  BELUM
+  MENGUNDURKAN_DIRI
+}
+
+enum berkas_persyaratan_status_upload {
+  PENDING
+  UPLOADED
+}

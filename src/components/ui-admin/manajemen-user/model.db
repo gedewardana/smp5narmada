@@ -1,0 +1,33 @@
+model user {
+  id_pengguna                                         Int              @id @default(autoincrement())
+  nama_lengkap                                        String           @db.VarChar(120)
+  email                                               String           @unique(map: "idx_email") @db.VarChar(50)
+  password                                            String           @db.VarChar(255)
+  role                                                user_role        @default(USER)
+  status_akun                                         user_status_akun @default(AKTIF)
+  dibuat_pada                                         DateTime         @default(now()) @db.Timestamp(0)
+  diperbaharui_pada                                   DateTime?        @default(now()) @db.Timestamp(0)
+  daftar_ulang                                        daftar_ulang[]
+  hak_akses                                           hak_akses[]
+  jadwal_pmb                                          jadwal_pmb[]
+  log_aktivitas                                       log_aktivitas[]
+  notifikasi                                          notifikasi[]
+  pendaftaran_pendaftaran_id_penggunaTopengguna       pendaftaran[]    @relation("pendaftaran_id_penggunaTopengguna")
+  pendaftaran_pendaftaran_diverifikasi_olehTopengguna pendaftaran[]    @relation("pendaftaran_diverifikasi_olehTopengguna")
+  pengumuman                                          pengumuman[]
+
+  @@index([role], map: "idx_role")
+  @@index([status_akun], map: "idx_status")
+  @@index([nama_lengkap], map: "idx_nama_lengkap")
+}
+
+enum user_status_akun {
+  AKTIF
+  NONAKTIF
+  DIBLOKIR
+}
+
+enum user_role {
+  ADMIN
+  USER
+}

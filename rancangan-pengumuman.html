@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe Pengumuman</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    </style>
+</head>
+<body class="flex h-screen bg-gray-50 text-gray-900 font-sans overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900 text-white flex flex-col transition-all duration-300 z-40 relative">
+    <div class="h-16 flex items-center justify-between px-4 border-b border-gray-700 shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-gray-700 border border-gray-500 rounded flex items-center justify-center text-xs font-bold text-gray-300">Log</div>
+        <span class="font-black whitespace-nowrap tracking-tight">Nama Sekolah</span>
+      </div>
+      <button class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 border border-gray-700">&lt;</button>
+    </div>
+    
+    <nav class="flex-1 py-4 overflow-y-auto">
+      <ul class="space-y-1 px-3">
+        <li>
+          <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 cursor-pointer mt-1">
+            <div class="w-5 h-5 bg-gray-700 rounded flex shrink-0 items-center justify-center text-[10px]">Ic</div>
+            <span class="text-sm font-medium">Dashboard</span>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 cursor-pointer mt-1">
+            <div class="w-5 h-5 bg-gray-700 rounded flex shrink-0 items-center justify-center text-[10px]">Ic</div>
+            <span class="text-sm font-medium">Pendaftaran</span>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gray-800 text-white border border-gray-700 shadow-sm cursor-pointer mt-1">
+            <div class="w-5 h-5 bg-gray-600 rounded flex shrink-0 items-center justify-center text-[10px]">Ic</div>
+            <span class="text-sm font-semibold">Pengumuman</span>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 cursor-pointer mt-1">
+            <div class="w-5 h-5 bg-gray-700 rounded flex shrink-0 items-center justify-center text-[10px]">Ic</div>
+            <span class="text-sm font-medium">Profil Saya</span>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="p-3 border-t border-gray-700 shrink-0">
+      <button class="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-gray-400 border border-transparent">
+        <div class="w-5 h-5 bg-gray-700 rounded flex shrink-0 items-center justify-center text-[10px]">Ex</div>
+        <span class="text-sm font-bold">Keluar</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Layout -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+    
+    <!-- Header -->
+    <header class="h-16 shrink-0 flex items-center justify-between px-6 bg-white border-b border-gray-300 shadow-sm z-30">
+      <div class="flex flex-col">
+        <h1 class="text-sm font-black text-gray-900 uppercase tracking-widest leading-none">SPMB</h1>
+        <p class="text-[10px] text-gray-500 font-medium tracking-wide leading-none mt-1">Sistem Penerimaan Murid Baru</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="relative w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 border border-gray-200">
+          <span class="text-[10px] font-bold"></span>
+          <span class="text-sm">🔔</span>
+          <span class="absolute -top-1 -right-1 w-4 h-4 bg-gray-800 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white">3</span>
+        </button>
+        <div class="w-px h-6 bg-gray-300 mx-1"></div>
+        <button class="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-xl border border-gray-200">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-black text-gray-700 bg-gray-200 border border-gray-300 shadow-sm">US</div>
+          <div class="hidden md:flex flex-col items-start leading-none">
+            <span class="text-[11px] font-black text-gray-900 max-w-[100px] truncate">Nama Pengguna</span>
+            <span class="text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">Pendaftar</span>
+          </div>
+          <span class="text-gray-400 text-xs ml-1 font-bold">v</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-6 bg-gray-100">
+        <div class="max-w-5xl mx-auto space-y-8">
+            
+            <!-- HasilCard -->
+            <div class="relative border border-gray-300 rounded-2xl overflow-hidden bg-white shadow-sm">
+                <!-- Top Accent -->
+                <div class="h-2 w-full bg-gray-400"></div>
+                <!-- View Surat Button Placeholder -->
+                <!-- <button class="absolute top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-bold">
+                    
+                </button>
+     -->
+                <div class="p-8 md:p-12">
+                    <!-- Header Section -->
+                    <div class="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-10">
+                        <div class="flex items-center gap-6">
+                            <div class="w-20 h-20 rounded-lg bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs border border-gray-300">
+                                Ikon
+                            </div>
+                            <div>
+                                <div class="inline-flex items-center px-3 py-1 rounded-full border border-gray-300 text-[10px] font-black uppercase tracking-widest mb-3 bg-gray-100 text-gray-600">
+                                    Status Pengumuman
+                                </div>
+                                <h2 class="text-3xl font-black text-gray-900 tracking-tight leading-tight">
+                                    Ucapan selamat
+                                </h2>
+                                <p class="text-gray-500 font-medium mt-1 uppercase text-xs tracking-wide">
+                                    Anda terpilih sebagai calon siswa baru
+                                </p>
+                            </div>
+                        </div>
+    
+                        <!-- Tanggal Pengumuman -->
+                        <div class="flex flex-col items-end gap-2 bg-gray-50 px-6 py-4 rounded-lg border border-gray-300 shrink-0">
+                            <div class="flex items-center gap-2 text-[10px] font-black text-gray-500 uppercase tracking-widest">
+                                <span class="text-[10px] font-bold">Ikon</span> Tanggal Pengumuman
+                            </div>
+                            <p class="text-sm font-black text-gray-900">
+                                - 
+                            </p>
+                        </div>
+                    </div>
+    
+                    <!-- Verdict Section -->
+                    <div class="relative mb-12">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300 border-dashed"></div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <div class="bg-white px-6 py-2 rounded-full border border-gray-300 flex items-center gap-3">
+                                <span class="text-[10px] font-bold text-gray-500">Ikon</span>
+                                <span class="text-xs font-black text-gray-600 uppercase tracking-[0.2em]">Keputusan Resmi Panitia</span>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Text -->
+                    <div class="max-w-3xl mx-auto text-center mb-10">
+                        <p class="text-base text-gray-600 leading-relaxed">
+                            Berdasarkan hasil seleksi administrasi, akademis, dan rapat pleno Panitia SPMB Tahun Pelajaran <strong>2025/2026</strong>, dengan ini menyatakan bahwa:
+                        </p>
+                    </div>
+    
+                    <!-- Student Info Table -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-8 h-8 rounded-lg bg-white border border-gray-300 flex items-center justify-center text-gray-500 text-[10px] font-bold">Ikon</div>
+                                <span class="text-[10px] font-black text-gray-600 uppercase tracking-widest">Nama Lengkap</span>
+                            </div>
+                            <p class="text-sm font-bold text-gray-900 truncate">Nama Siswa</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-8 h-8 rounded-lg bg-white border border-gray-300 flex items-center justify-center text-gray-500 text-[10px] font-bold">Ikon</div>
+                                <span class="text-[10px] font-black text-gray-600 uppercase tracking-widest">No. Pendaftaran</span>
+                            </div>
+                            <p class="text-sm font-bold text-gray-900 truncate">REG-12345</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-300">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-8 h-8 rounded-lg bg-white border border-gray-300 flex items-center justify-center text-gray-500 text-[10px] font-bold">Ikon</div>
+                                <span class="text-[10px] font-black text-gray-600 uppercase tracking-widest">Asal Sekolah</span>
+                            </div>
+                            <p class="text-sm font-bold text-gray-900 truncate">SDN Placeholder</p>
+                        </div>
+                    </div>
+    
+                    <div class="text-center py-6">
+                        <p class="text-sm text-gray-600 uppercase font-black tracking-[0.3em] mb-4">Secara resmi dinyatakan</p>
+                        <div class="inline-block py-4 px-12 rounded-lg border-4 border-gray-400 bg-gray-100">
+                            <h3 class="text-4xl font-black tracking-tight text-gray-800">
+                                Status Hasil
+                            </h3>
+                        </div>
+                        <p class="mt-8 text-sm text-gray-700 leading-relaxed font-medium">
+                            Menjadi siswa/siswi <strong>Sekolah Placeholder</strong> <br />
+                            Tahun Ajaran <strong>2025/2026</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Langkah Selanjutnya -->
+            <!-- <div class="mt-12">
+                <div class="mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gray-800 text-white flex items-center justify-center text-[10px] font-bold shadow-sm">
+                        Ikon
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-gray-900 tracking-tight">Apa Langkah Selanjutnya?</h2>
+                        <p class="text-xs font-black text-gray-500 uppercase tracking-widest mt-0.5">Proses Daftar Ulang Offline</p>
+                    </div>
+                </div>
+    
+                <div class="space-y-12">
+                    
+                    
+                    <div class="relative pl-12 sm:pl-16">
+                        <div class="absolute left-0 top-0 w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-gray-200 border border-gray-300 flex items-center justify-center text-gray-700 font-black z-10 shadow-sm">
+                            01
+                        </div>
+                        <div class="absolute left-5 sm:left-6 top-10 sm:top-12 bottom-[-48px] w-0.5 bg-gray-300"></div>
+    
+                        <div>
+                            <h3 class="text-lg font-black text-gray-900 mb-2">Persiapkan & Cetak Dokumen Resmi</h3>
+                            <p class="text-sm text-gray-600 font-medium mb-6">Unduh dan cetak seluruh berkas pendaftaran berikut sebagai syarat utama daftar ulang.</p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                          
+                                <div class="p-5 bg-white border border-gray-300 rounded-lg">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center text-[10px] font-bold mb-4 border border-gray-200">Ikon</div>
+                                    <p class="text-sm font-black text-gray-800 mb-4 h-10">Surat Tanda Terima</p>
+                                    <button class="w-full h-10 rounded-lg bg-gray-100 text-gray-700 font-bold text-xs uppercase tracking-widest border border-gray-300">Download</button>
+                                </div>
+                            
+                                <div class="p-5 bg-white border border-gray-300 rounded-lg">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center text-[10px] font-bold mb-4 border border-gray-200">Ikon</div>
+                                    <p class="text-sm font-black text-gray-800 mb-4 h-10">Surat Pernyataan Siswa</p>
+                                    <button class="w-full h-10 rounded-lg bg-gray-100 text-gray-700 font-bold text-xs uppercase tracking-widest border border-gray-300">Download</button>
+                                </div>
+                             
+                                <div class="p-5 bg-white border border-gray-300 rounded-lg">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center text-[10px] font-bold mb-4 border border-gray-200">Ikon</div>
+                                    <p class="text-sm font-black text-gray-800 mb-4 h-10">Surat Pernyataan Orang Tua</p>
+                                    <button class="w-full h-10 rounded-lg bg-gray-100 text-gray-700 font-bold text-xs uppercase tracking-widest border border-gray-300">Download</button>
+                                </div>
+                              
+                                <div class="p-5 bg-white border border-gray-300 rounded-lg">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center text-[10px] font-bold mb-4 border border-gray-200">Ikon</div>
+                                    <p class="text-sm font-black text-gray-800 mb-4 h-10">Rincian Baju Seragam</p>
+                                    <button class="w-full h-10 rounded-lg bg-gray-100 text-gray-700 font-bold text-xs uppercase tracking-widest border border-gray-300">Download</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                  
+                    <div class="relative pl-12 sm:pl-16">
+                        <div class="absolute left-0 top-0 w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-gray-200 border border-gray-300 flex items-center justify-center text-gray-700 font-black z-10 shadow-sm">
+                            02
+                        </div>
+                        <div class="absolute left-5 sm:left-6 top-10 sm:top-12 bottom-[-48px] w-0.5 bg-gray-300"></div>
+    
+                        <div>
+                            <h3 class="text-lg font-black text-gray-900 mb-2">Lengkapi Berkas Pendukung</h3>
+                            <p class="text-sm text-gray-600 font-medium mb-6">Siapkan dokumen fisik berikut (asli dan fotokopi) untuk diserahkan ke Panitia.</p>
+    
+                            <div class="bg-white rounded-lg border border-gray-300 p-6 shadow-sm">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8">
+                                    <div class="flex items-start gap-3"><span class="w-5 h-5 rounded-full bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] shrink-0 font-bold">v</span> <span class="text-sm text-gray-700">Surat Tanda Penerimaan</span></div>
+                                    <div class="flex items-start gap-3"><span class="w-5 h-5 rounded-full bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] shrink-0 font-bold">v</span> <span class="text-sm text-gray-700">Fotokopi Akta Kelahiran</span></div>
+                                    <div class="flex items-start gap-3"><span class="w-5 h-5 rounded-full bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] shrink-0 font-bold">v</span> <span class="text-sm text-gray-700">Surat Keterangan Kelulusan (SKL)</span></div>
+                                    <div class="flex items-start gap-3"><span class="w-5 h-5 rounded-full bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] shrink-0 font-bold">v</span> <span class="text-sm text-gray-700">Fotokopi KTP Orang Tua</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                  
+                    <div class="relative pl-12 sm:pl-16">
+                        <div class="absolute left-0 top-0 w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-gray-200 border border-gray-300 flex items-center justify-center text-gray-700 font-black z-10 shadow-sm">
+                            03
+                        </div>
+    
+                        <div>
+                            <h3 class="text-lg font-black text-gray-900 mb-2">Verifikasi Berkas di Sekolah</h3>
+                            <p class="text-sm text-gray-600 font-medium mb-6">Kunjungi lokasi pendaftaran ulang sesuai jadwal resmi yang telah ditentukan.</p>
+    
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="flex items-center gap-5 p-6 bg-white rounded-lg border border-gray-300 shadow-sm">
+                                    <div class="w-12 h-12 rounded-2xl bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center text-[10px] font-bold shrink-0">Ikon</div>
+                                    <div><p class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Tanggal</p><p class="text-sm font-black text-gray-900">-</p></div>
+                                </div>
+                                <div class="flex items-center gap-5 p-6 bg-white rounded-lg border border-gray-300 shadow-sm">
+                                    <div class="w-12 h-12 rounded-2xl bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center text-[10px] font-bold shrink-0">Ikon</div>
+                                    <div><p class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Lokasi</p><p class="text-sm font-black text-gray-900">Sekolah Placeholder</p></div>
+                                </div>
+                                <div class="flex items-center gap-5 p-6 bg-white rounded-lg border border-gray-300 shadow-sm">
+                                    <div class="w-12 h-12 rounded-2xl bg-gray-100 text-gray-600 border border-gray-200 flex items-center justify-center text-[10px] font-bold shrink-0">Ikon</div>
+                                    <div><p class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Jam Kerja</p><p class="text-sm font-black text-gray-900">-</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+    
+            
+                <div class="mt-16 rounded-3xl bg-gray-900 p-8 md:p-10 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-16 h-16 rounded-2xl bg-gray-800 border border-gray-600 flex items-center justify-center shrink-0 font-bold text-2xl">!</div>
+                        <div class="flex-1 text-center md:text-left">
+                            <h4 class="text-lg font-black mb-2 uppercase tracking-tight">Peringatan Penting</h4>
+                            <p class="text-gray-400 font-medium leading-relaxed">
+                                Batas waktu pendaftaran ulang adalah sesuai jadwal di atas. Peserta yang tidak hadir melakukan pendaftaran ulang hingga hari terakhir dianggap <span class="text-white font-bold underline">MENGUNDURKAN DIRI</span> secara otomatis dari sistem pendaftaran.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+    
+        </div>
+    </main>
+    
+  </div>
+</body>
+</html>

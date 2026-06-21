@@ -1,0 +1,92 @@
+model pendaftaran {
+  id_pendaftaran                                   Int                            @id @default(autoincrement())
+  id_pengguna                                      Int
+  nomor_pendaftaran                                String?                        @unique(map: "nomor_pendaftaran") @db.VarChar(50)
+  tanggal_submit                                   DateTime?                      @default(now()) @db.Timestamp(0)
+  tanggal_verifikasi                               DateTime?                      @db.Timestamp(0)
+  diverifikasi_oleh                                Int?
+  catatan                                          String?                        @db.Text
+  tahun_ajaran                                     Int
+  jalur_pendaftaran                                pendaftaran_jalur_pendaftaran  @default(ZONASI)
+  diperbaharui_pada                                DateTime?                      @db.Timestamp(0)
+  status_pendaftaran                               pendaftaran_status_pendaftaran @default(DRAFT)
+  status_verifikasi                                pendaftaran_status_verifikasi  @default(BELUM_DIVERIFIKASI)
+  berkas_persyaratan                               berkas_persyaratan[]
+  identitas_peserta_didik                          identitas_peserta_didik?
+  pengguna_pendaftaran_id_penggunaTopengguna       user                           @relation("pendaftaran_id_penggunaTopengguna", fields: [id_pengguna], references: [id_pengguna], onUpdate: Restrict, map: "pendaftaran_ibfk_1")
+  pengguna_pendaftaran_diverifikasi_olehTopengguna user?                          @relation("pendaftaran_diverifikasi_olehTopengguna", fields: [diverifikasi_oleh], references: [id_pengguna], onDelete: Restrict, onUpdate: Restrict, map: "pendaftaran_ibfk_2")
+  jadwal_pmb                                       jadwal_pmb                     @relation(fields: [tahun_ajaran], references: [id_jadwal], map: "pendaftaran_ibfk_3")
+  pengumuman                                       pengumuman?
+
+  @@index([diverifikasi_oleh], map: "diverifikasi_oleh")
+  @@index([tahun_ajaran], map: "idx_pendaftaran_tahun")
+  @@index([id_pengguna], map: "idx_pengguna")
+  @@index([status_verifikasi], map: "idx_status")
+}
+
+enum pendaftaran_status_pendaftaran {
+  SUBMITTED
+  DRAFT
+}
+
+
+model user {
+  id_pengguna                                         Int              @id @default(autoincrement())
+  nama_lengkap                                        String           @db.VarChar(120)
+  email                                               String           @unique(map: "idx_email") @db.VarChar(50)
+  password                                            String           @db.VarChar(255)
+  role                                                user_role        @default(USER)
+  status_akun                                         user_status_akun @default(AKTIF)
+  dibuat_pada                                         DateTime         @default(now()) @db.Timestamp(0)
+  diperbaharui_pada                                   DateTime?        @default(now()) @db.Timestamp(0)
+  daftar_ulang                                        daftar_ulang[]
+  hak_akses                                           hak_akses[]
+  jadwal_pmb                                          jadwal_pmb[]
+  log_aktivitas                                       log_aktivitas[]
+  notifikasi                                          notifikasi[]
+  pendaftaran_pendaftaran_id_penggunaTopengguna       pendaftaran[]    @relation("pendaftaran_id_penggunaTopengguna")
+  pendaftaran_pendaftaran_diverifikasi_olehTopengguna pendaftaran[]    @relation("pendaftaran_diverifikasi_olehTopengguna")
+  pengumuman                                          pengumuman[]
+
+  @@index([role], map: "idx_role")
+  @@index([status_akun], map: "idx_status")
+  @@index([nama_lengkap], map: "idx_nama_lengkap")
+}
+
+
+model hak_akses {
+  id_hak_akses Int                   @id @default(autoincrement())
+  id_pengguna  Int
+  id_menu      Int
+  level_akses  hak_akses_level_akses @default(READ)
+  dibuat_pada  DateTime              @default(now()) @db.Timestamp(0)
+  pengguna     user                  @relation(fields: [id_pengguna], references: [id_pengguna], onDelete: Cascade, onUpdate: Restrict, map: "hak_akses_ibfk_1")
+  menu         menu                  @relation(fields: [id_menu], references: [id_menu], onDelete: Cascade, onUpdate: Restrict, map: "hak_akses_ibfk_2")
+
+  @@unique([id_pengguna, id_menu], map: "unik_user_menu")
+  @@index([id_menu], map: "id_menu")
+}
+
+model menu {
+  id_menu   Int         @id @default(autoincrement())
+  kode_menu String      @unique(map: "kode_menu") @db.VarChar(50)
+  nama_menu String      @db.VarChar(100)
+  deskripsi String?     @db.VarChar(255)
+  hak_akses hak_akses[]
+}
+
+enum user_status_akun {
+  AKTIF
+  NONAKTIF
+  DIBLOKIR
+}
+
+enum user_role {
+  ADMIN
+  USER
+}
+
+enum hak_akses_level_akses {
+  READ
+  FULL
+}

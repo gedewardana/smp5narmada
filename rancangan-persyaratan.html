@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe Landing Page Lengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-white text-gray-900">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gray-200 border border-gray-400 rounded-lg flex items-center justify-center font-bold text-gray-500 text-xs">Logo</div>
+                    <div class="hidden sm:block">
+                        <p class="text-sm font-bold text-gray-900">Nama Sekolah</p>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#beranda" class="text-sm font-medium text-gray-700">Beranda</a>
+                    <a href="#Visi Misi" class="text-sm font-medium text-gray-700">Visi Misi</a>
+                    <a href="#prestasi" class="text-sm font-medium text-gray-700">Prestasi</a>
+                    <a href="#jadwal" class="text-sm font-medium text-gray-700">Jadwal</a>
+                    <a href="#persyaratan" class="text-sm font-medium text-gray-700">Persyaratan</a>
+                    <a href="#faq" class="text-sm font-medium text-gray-700">FAQ</a>
+                    <a href="#kontak" class="text-sm font-medium text-gray-700">Kontak</a>
+                    <a href="/login" class="px-5 py-2.5 bg-white text-gray-700 text-sm font-semibold rounded-full border border-gray-400">Login</a>
+                    <a href="/register" class="px-5 py-2.5 bg-gray-700 text-white text-sm font-semibold rounded-full">Daftar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <!-- <section id="beranda" class="relative min-h-screen flex items-center pt-20 overflow-hidden bg-gray-100">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 w-full">
+            <div class="max-w-2xl space-y-8">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-gray-300">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                    <span class="text-sm font-semibold text-gray-600 tracking-wide uppercase">Label/Badge</span>
+                </div>
+                <p class="text-gray-500 text-sm font-medium tracking-widest uppercase">Tagline / Subheading</p>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                    Headline Utama <br/>
+                    <span class="text-gray-600">Sub Headline</span>
+                </h1>
+                <p class="text-lg text-gray-600 max-w-xl leading-relaxed">
+                    Teks deskripsi hero section. Ini adalah area untuk meletakkan penjelasan singkat tentang layanan, produk, atau sekolah Anda.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-800 text-white font-semibold rounded-full">Primary Button</a>
+                </div>
+                <div class="grid grid-cols-3 gap-6 pt-8 border-t border-gray-300">
+                    <div>
+                        <p class="text-2xl lg:text-3xl font-bold text-gray-900">Stat 1</p>
+                        <p class="text-sm text-gray-500 mt-1">Label Stat</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl lg:text-3xl font-bold text-gray-900">Stat 2</p>
+                        <p class="text-sm text-gray-500 mt-1">Label Stat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Info Section -->
+    <!-- <section id="informasi" class="py-20 lg:py-32 bg-white space-y-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Visi Misi</h2>
+                <p class="text-lg text-gray-500">Visi Misi sekolah.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-32 bg-gray-50 p-8 lg:p-12 rounded-3xl border border-gray-200">
+                <div class="relative">
+                    <div class="aspect-[4/5] rounded-2xl bg-gray-200 border border-gray-300 flex items-center justify-center text-gray-500">Image Placeholder</div>
+                </div>
+                <div class="space-y-6">
+                    <div class="inline-block px-4 py-1.5 bg-white border border-gray-300 text-gray-600 rounded-full text-sm font-semibold uppercase">Badge Info</div>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">Judul Paragraf Utama</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">Teks penjelasan panjang tentang profil, sambutan, atau latar belakang institusi.</p>
+                    <div>
+                        <p class="font-bold text-xl text-gray-900">Nama Penulis/Tokoh</p>
+                        <p class="text-gray-500">Jabatan</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-32">
+                <div class="bg-gray-100 rounded-3xl p-8 lg:p-12 border border-gray-300 flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Visi Kami</h2>
+                    <p class="text-xl text-gray-600 leading-relaxed italic">"Teks Visi Perusahaan atau Institusi Anda diletakkan di sini."</p>
+                </div>
+                <div class="bg-white rounded-3xl p-8 lg:p-12 border border-gray-300 shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Misi Kami</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-4">
+                            <p class="text-gray-600 text-lg">1. Poin Misi Pertama diletakkan di sini.</p>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <p class="text-gray-600 text-lg">2. Poin Misi Kedua diletakkan di sini.</p>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <p class="text-gray-600 text-lg">3. Poin Misi Ketiga diletakkan di sini.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="bg-white rounded-2xl p-6 border border-gray-300">
+                    <div class="w-14 h-14 bg-gray-200 text-gray-500 border border-gray-300 rounded-xl mb-5 flex items-center justify-center font-bold">Icon</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Fitur 1</h3>
+                    <p class="text-gray-600 leading-relaxed">Deskripsi fitur satu secara singkat dan padat.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 border border-gray-300">
+                    <div class="w-14 h-14 bg-gray-200 text-gray-500 border border-gray-300 rounded-xl mb-5 flex items-center justify-center font-bold">Icon</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Fitur 2</h3>
+                    <p class="text-gray-600 leading-relaxed">Deskripsi fitur dua secara singkat dan padat.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 border border-gray-300">
+                    <div class="w-14 h-14 bg-gray-200 text-gray-500 border border-gray-300 rounded-xl mb-5 flex items-center justify-center font-bold">Icon</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Fitur 3</h3>
+                    <p class="text-gray-600 leading-relaxed">Deskripsi fitur tiga secara singkat dan padat.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 border border-gray-300">
+                    <div class="w-14 h-14 bg-gray-200 text-gray-500 border border-gray-300 rounded-xl mb-5 flex items-center justify-center font-bold">Icon</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Fitur 4</h3>
+                    <p class="text-gray-600 leading-relaxed">Deskripsi fitur empat secara singkat dan padat.</p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Prestasi Section -->
+    <!-- <section id="prestasi" class="py-16 sm:py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-20">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full mb-4 border border-gray-300">
+                    <span class="text-sm font-semibold text-gray-600">Badge Prestasi</span>
+                </div>
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Judul Section (Prestasi/Galeri)</h2>
+                <p class="text-lg text-gray-600">Sub-judul singkat mengenai daftar list ini.</p>
+            </div>
+            
+            <div class="space-y-16 lg:space-y-24">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <div class="space-y-6 lg:order-2">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-white border border-gray-300 text-gray-700">Kategori</span>
+                        <h3 class="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">Judul Item Pertama</h3>
+                        <p class="text-gray-600 leading-relaxed">Deskripsi panjang dari item ini diletakkan di sini untuk memberikan konteks.</p>
+                        <div class="grid grid-cols-3 gap-4 pt-4">
+                            <div class="p-3 bg-white rounded-xl border border-gray-300 text-center lg:text-left">
+                                <p class="text-xs text-gray-500 mb-1">Label 1</p>
+                                <p class="text-base font-bold text-gray-900">Value 1</p>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-gray-300 text-center lg:text-left">
+                                <p class="text-xs text-gray-500 mb-1">Label 2</p>
+                                <p class="text-base font-bold text-gray-900">Value 2</p>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-gray-300 text-center lg:text-left">
+                                <p class="text-xs text-gray-500 mb-1">Label 3</p>
+                                <p class="text-base font-bold text-gray-900">Value 3</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative aspect-[4/3] rounded-2xl bg-gray-300 flex items-center justify-center text-gray-500 lg:order-1">Image Placeholder</div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <div class="space-y-6">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-white border border-gray-300 text-gray-700">Kategori</span>
+                        <h3 class="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">Judul Item Kedua</h3>
+                        <p class="text-gray-600 leading-relaxed">Deskripsi panjang dari item ini diletakkan di sini untuk memberikan konteks lanjutan.</p>
+                        <div class="grid grid-cols-3 gap-4 pt-4">
+                            <div class="p-3 bg-white rounded-xl border border-gray-300 text-center lg:text-left">
+                                <p class="text-xs text-gray-500 mb-1">Label 1</p>
+                                <p class="text-base font-bold text-gray-900">Value 1</p>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-gray-300 text-center lg:text-left">
+                                <p class="text-xs text-gray-500 mb-1">Label 2</p>
+                                <p class="text-base font-bold text-gray-900">Value 2</p>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-gray-300 text-center lg:text-left">
+                                <p class="text-xs text-gray-500 mb-1">Label 3</p>
+                                <p class="text-base font-bold text-gray-900">Value 3</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative aspect-[4/3] rounded-2xl bg-gray-300 flex items-center justify-center text-gray-500">Image Placeholder</div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Timeline Section -->
+    <!-- <section id="jadwal" class="py-20 lg:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Judul Timeline / Jadwal</h2>
+                <p class="text-lg text-gray-600">Sub-judul untuk alur atau langkah-langkah.</p>
+            </div>
+
+            <div class="relative space-y-12 max-w-5xl mx-auto">
+                <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gray-300"></div>
+
+                <div class="flex flex-col md:flex-row-reverse gap-8 items-center relative">
+                    <div class="flex-1 md:text-left w-full">
+                        <div class="bg-gray-50 p-6 rounded-2xl border border-gray-300 md:ml-12">
+                            <span class="inline-block px-3 py-1 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-full mb-3">Tanggal / Waktu</span>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Langkah 1</h3>
+                            <p class="text-gray-600">Deskripsi tahapan atau langkah pertama.</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-4 border-gray-300 rounded-full items-center justify-center z-10 font-bold text-gray-700">1</div>
+                    <div class="flex-1 hidden md:block w-full"></div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-8 items-center relative">
+                    <div class="flex-1 md:text-right w-full">
+                        <div class="bg-gray-50 p-6 rounded-2xl border border-gray-300 md:mr-12">
+                            <span class="inline-block px-3 py-1 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-full mb-3">Tanggal / Waktu</span>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Langkah 2</h3>
+                            <p class="text-gray-600">Deskripsi tahapan atau langkah kedua.</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-4 border-gray-300 rounded-full items-center justify-center z-10 font-bold text-gray-700">2</div>
+                    <div class="flex-1 hidden md:block w-full"></div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Requirements Section -->
+    <section id="persyaratan" class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Judul Card Section (Syarat)</h2>
+                <p class="text-lg text-gray-600">Deskripsi penjelas untuk kotak list di bawah.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl p-8 border border-gray-300">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center font-bold text-gray-600">!</div>
+                        Kategori List 1
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600 text-sm mt-0.5">-</div>
+                            <span class="text-gray-700">Item list pertama</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600 text-sm mt-0.5">-</div>
+                            <span class="text-gray-700">Item list kedua</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-gray-300">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center font-bold text-gray-600">📄</div>
+                        Kategori List 2
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600 text-sm mt-0.5">-</div>
+                            <span class="text-gray-700">Dokumen / list item A</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600 text-sm mt-0.5">-</div>
+                            <span class="text-gray-700">Dokumen / list item B</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center gap-2 px-8 py-4 bg-gray-800 text-white font-semibold rounded-full">Call to Action</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <!-- <section id="faq" class="py-20 lg:py-32 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-300 rounded-full mb-4">
+                    <span class="text-sm font-medium text-gray-700">Badge FAQ</span>
+                </div>
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Pertanyaan Umum (FAQ)</h2>
+            </div>
+            <div class="space-y-4">
+                <div class="border border-gray-400 bg-gray-100 rounded-2xl overflow-hidden p-6">
+                    <span class="font-semibold text-gray-900 block mb-4">Pertanyaan yang sedang terbuka?</span>
+                    <p class="text-gray-600 leading-relaxed">Teks jawaban dari pertanyaan. Biasanya lebih panjang dan menjelaskan detail.</p>
+                </div>
+                <div class="border border-gray-300 bg-white rounded-2xl overflow-hidden">
+                    <div class="w-full flex items-center justify-between p-6">
+                        <span class="font-semibold text-gray-900">Pertanyaan yang tertutup?</span>
+                        <span class="text-gray-500 font-bold">v</span>
+                    </div>
+                </div>
+                <div class="border border-gray-300 bg-white rounded-2xl overflow-hidden">
+                    <div class="w-full flex items-center justify-between p-6">
+                        <span class="font-semibold text-gray-900">Pertanyaan ketiga?</span>
+                        <span class="text-gray-500 font-bold">v</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Contact Section -->
+    <!-- <section id="kontak" class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Hubungi Kami (Kontak)</h2>
+                <p class="text-lg text-gray-600">Sub-judul untuk kontak atau dukungan.</p>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-300 shadow-sm">
+                        <div class="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4 text-gray-700 font-bold">Ikon</div>
+                        <h3 class="font-bold text-gray-900 mb-2">Lokasi</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Jalan Utama No.1, Kota, Negara</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-300 shadow-sm">
+                        <div class="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center mb-4 text-gray-700 font-bold">Ikon</div>
+                        <h3 class="font-bold text-gray-900 mb-2">Telepon</h3>
+                        <p class="text-gray-600 text-sm">(021) 123456</p>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-white rounded-2xl p-4 border border-gray-300 shadow-sm overflow-hidden">
+                    <div class="relative w-full h-[400px] md:h-full rounded-xl bg-gray-300 overflow-hidden flex items-center justify-center text-gray-500 font-bold text-2xl">
+                        MAP PLACEHOLDER
+                        <div class="absolute bottom-4 left-20 bg-white px-4 py-2 rounded-lg border border-gray-300 shadow text-left">
+                            <p class="text-sm font-semibold text-gray-800">Nama Lokasi</p>
+                            <p class="text-xs text-gray-500">Alamat lengkap singkat</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 text-gray-900 border-t border-gray-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gray-300 rounded-xl flex items-center justify-center text-gray-700 font-bold text-xs">Logo</div>
+                        <div>
+                            <p class="font-bold">Brand Name</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">Teks pendek tentang brand atau perusahaan sebagai pengantar di footer.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Menu 1</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm">Link 1</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm">Link 2</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm">Link 3</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Menu 2</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm">Link 4</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm">Link 5</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Sosial Media</h4>
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 bg-gray-300 rounded-lg flex items-center justify-center text-gray-700">Ic</div>
+                        <div class="w-10 h-10 bg-gray-300 rounded-lg flex items-center justify-center text-gray-700">Ic</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 pt-8 border-t border-gray-300 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">© 2026 Brand Name. Hak Cipta Dilindungi.</p>
+                <div class="flex gap-6 text-sm text-gray-500">
+                    <a href="#" class="hover:text-gray-900">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-gray-900">Syarat Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
