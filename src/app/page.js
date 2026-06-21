@@ -3,13 +3,12 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/home1/Navbar'
 import Hero from '@/components/home1/Hero'
 import InfoSection from '@/components/home1/InfoSection'
-import Timeline from '@/components/home1/Timeline'
+import TimeLine from '@/components/home1/TimeLine'
 import Requirements from '@/components/home1/Requirements'
 import FAQ from '@/components/home1/FAQ'
 import Contact from '@/components/home1/Contact'
 import Footer from '@/components/home1/Footer'
 import Prestasi from '@/components/home1/Prestasi'
-// import Ekstrakurikuler from '@/components/home1/Ekstrakurikuler'
 import ModalDetail from '@/components/home1/ModalDetail'
 
 export default function Home() {
@@ -53,7 +52,7 @@ export default function Home() {
       <Hero jadwal={activeJadwal} />
       <InfoSection />
       <Prestasi onShowDetail={handleShowDetail} />
-      <Timeline jadwal={activeJadwal} />
+      <TimeLine jadwal={activeJadwal} />
       <Requirements />
       <FAQ />
       <Contact />
