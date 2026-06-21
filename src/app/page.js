@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/home1/Navbar'
 import Hero from '@/components/home1/Hero'
 import InfoSection from '@/components/home1/InfoSection'
-import TimeLine from '@/components/home1/TimeLine'
+import Timeline from '@/components/home1/Timeline'
 import Requirements from '@/components/home1/Requirements'
 import FAQ from '@/components/home1/FAQ'
 import Contact from '@/components/home1/Contact'
@@ -52,7 +52,7 @@ export default function Home() {
       <Hero jadwal={activeJadwal} />
       <InfoSection />
       <Prestasi onShowDetail={handleShowDetail} />
-      <TimeLine jadwal={activeJadwal} />
+      <Timeline jadwal={activeJadwal} />
       <Requirements />
       <FAQ />
       <Contact />

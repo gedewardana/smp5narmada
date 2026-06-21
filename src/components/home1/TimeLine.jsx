@@ -4,7 +4,7 @@ import { CalendarDays, FileText, Bell } from 'lucide-react'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 
-export default function TimeLine({ jadwal }) {
+export default function Timeline({ jadwal }) {
     const formatDate = (date) => {
         if (!date) return '—'
         try {
