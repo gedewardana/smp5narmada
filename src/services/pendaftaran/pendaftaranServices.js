@@ -16,17 +16,23 @@ function generateNomorPendaftaran(tahunString, idJadwal, idPendaftaran) {
 
 // ─────────────────────────────────────────────
 export async function createPendaftaran({ id_pengguna, jalur_pendaftaran }) {
-    // 1. Cari jadwal yang sedang DIBUKA dan berstatus aktif
-    const jadwalAktif = await prisma.jadwal_pmb.findFirst({
-        where: {
-            status_jadwal: "DIBUKA",
-            is_active: true
-        }
+    // 1. Cari jadwal pendaftaran terakhir yang aktif (tanpa mempedulikan status DIBUKA/DITUTUP)
+    // agar user tetap bisa membuat DRAFT pendaftaran otomatis.
+    let jadwalAktif = await prisma.jadwal_pmb.findFirst({
+        where: { is_active: true },
+        orderBy: { id_jadwal: 'desc' }
     });
+
+    // Jika tidak ada yang is_active: true, ambil jadwal yang paling terakhir dibuat di database
+    if (!jadwalAktif) {
+        jadwalAktif = await prisma.jadwal_pmb.findFirst({
+            orderBy: { id_jadwal: 'desc' }
+        });
+    }
 
     if (!jadwalAktif) {
         throw new Error(
-            "Pendaftaran saat ini sedang ditutup atau belum ada gelombang yang dibuka. Silakan pantau pengumuman lebih lanjut."
+            "Belum ada gelombang pendaftaran (Jadwal PMB) yang diatur di dalam sistem. Harap hubungi Admin."
         );
     }
 
