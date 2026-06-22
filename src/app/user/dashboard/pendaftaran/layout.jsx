@@ -13,7 +13,7 @@ export default function PendaftaranLayout({ children }) {
         <div className="min-h-screen bg-gray-50/50 pb-20">
             <div className="max-w-6xl mx-auto px-2 sm:px-4 pt-4">
 
-                
+
 
                 {/* Information Layer */}
                 <RegistrationInfoBanner />

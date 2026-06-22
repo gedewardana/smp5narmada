@@ -93,7 +93,8 @@ export function FormInput({
                     )}
                     <select
                         name={name}
-                        value={value}
+                       // value={value}
+                        value={value ?? ''}
                         onChange={handleChange}
                         className={`${inputBaseClass} appearance-none cursor-pointer pr-10 ${Icon ? 'pl-11' : 'px-4'}`}
                         required={required}
@@ -137,7 +138,8 @@ export function FormInput({
                 <Input
                     type={type}
                     name={name}
-                    value={value}
+                    //value={value}
+                    value={value ?? ''}
                     onChange={handleChange}
                     className={`${inputBaseClass} ${Icon ? 'pl-11' : 'px-4'}`}
                     placeholder={placeholder}
