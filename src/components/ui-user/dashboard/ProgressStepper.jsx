@@ -36,12 +36,12 @@ export default function TimelinePendaftaran() {
             },
             link: '/user/dashboard/pendaftaran',
             date: data?.pendaftaran_range || '-',
-            ctaLabel: 'Lanjutkan Pendaftaran',
+            ctaLabel: 'Daftar',
             ctaLabelByStatus: {
-                completed: 'Lihat Detail Selengkapnya',
-                menunggu_verifikasi: 'Lihat Detail Selengkapnya',
-                tolak: 'Lihat Detail Selengkapnya',
-                perlu_perbaikan: 'Perbaiki Data Pendaftaran',
+                completed: 'Detail',
+                menunggu_verifikasi: 'Detail',
+                tolak: 'Detail',
+                perlu_perbaikan: 'Detail',
             }
         },
         {
@@ -56,20 +56,20 @@ export default function TimelinePendaftaran() {
             },
             link: '/user/dashboard/pengumuman',
             date: data?.pengumuman_date || '-',
-            ctaLabel: 'Lihat Pengumuman',
+            ctaLabel: 'Detail Pengumuman',
             ctaLabelByStatus: {
-                completed: 'Lihat Detail Selengkapnya',
-                diterima: 'Lihat Detail Selengkapnya',
-                tidak_diterima: 'Lihat Detail Selengkapnya',
+                completed: 'Detail',
+                diterima: 'Detail',
+                tidak_diterima: 'Detail',
             }
         },
     ], [data]);
     // ─── Logika Mapping Status Backend ke UI Stepper ───
-    
+
     const resolveStatus = () => {
         let currentStep = 1
         let statusOverride = 'active'
-        
+
         const jadwalStatus = data?.jadwal_aktif?.status_jadwal
 
         // Jika belum submit data (masih kosongan/Draft), terapkan blokir jadwal jika ada
@@ -127,7 +127,7 @@ export default function TimelinePendaftaran() {
         return (
             <div className="space-y-6 animate-pulse">
                 {[1, 2].map(i => (
-                    <div key={i} className="flex gap-6">
+                    <div key={i} className="flex gap-3 sm:gap-6">
                         <div className="w-12 h-12 bg-slate-100 rounded-2xl shrink-0" />
                         <div className="flex-1 h-32 bg-slate-50 rounded-2xl border border-slate-100" />
                     </div>
@@ -143,7 +143,7 @@ export default function TimelinePendaftaran() {
                 const Icon = config.icon
 
                 return (
-                    <div key={step.id} className="relative flex items-start gap-6">
+                    <div key={step.id} className="relative flex items-start gap-3 sm:gap-6">
 
                         {/* ── Vertical Connector Line ── */}
                         {index < stepsWithStatus.length - 1 && (
@@ -175,13 +175,13 @@ export default function TimelinePendaftaran() {
 
                         {/* ── Step Card ── */}
                         <div className={`
-                            flex-1 p-6 rounded-2xl border transition-all duration-500 mb-6
+                            flex-1 p-4 sm:p-6 rounded-2xl border transition-all duration-500 mb-6
                             ${config.cardClass}
                         `}>
                             {/* Header */}
                             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-                                <div>
-                                    <h4 className="text-base font-black tracking-tight text-gray-900">
+                                <div className="break-words min-w-0 pr-2">
+                                    <h4 className="text-sm sm:text-base font-black tracking-tight text-gray-900 leading-snug">
                                         {step.title}
                                     </h4>
                                     <div className="flex items-center gap-1.5 mt-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
@@ -202,8 +202,8 @@ export default function TimelinePendaftaran() {
                                 <Link
                                     href={step.link}
                                     className={`
-                                        inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl 
-                                        text-xs font-black uppercase tracking-widest 
+                                        inline-flex items-center justify-center w-full sm:w-auto gap-2 sm:gap-2.5 px-4 py-3 sm:px-5 sm:py-2.5 rounded-xl 
+                                        text-[10px] sm:text-xs font-black uppercase tracking-widest text-center
                                         shadow-lg transition-all group/btn
                                         hover:-translate-y-0.5 active:translate-y-0
                                         ${step.status === 'perlu_perbaikan'
