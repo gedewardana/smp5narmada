@@ -80,6 +80,15 @@ export default function DataWaliPage() {
                 return;
             }
 
+            Swal.fire({
+                title: 'Menyimpan Data...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+
             // Backend validation (fullPendaftaranSchema) requires complete identitas data
             const payload = {
                 ...(existingData?.identitas || {}),
@@ -92,6 +101,15 @@ export default function DataWaliPage() {
                 await mutate()
                 setIsSaved(true)
                 setHasData(true)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Tersimpan!',
+                    text: 'Data wali berhasil disimpan.',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    customClass: { popup: 'rounded-3xl' }
+                })
             }
         } catch (error) {
             console.error("Gagal simpan data wali:", error)

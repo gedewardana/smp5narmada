@@ -125,8 +125,8 @@ export default function PendaftaranPage() {
                 </div>
             ) : (
 
-                <RegistrationStatus 
-                    jadwal={activeJadwal} 
+                <RegistrationStatus
+                    jadwal={activeJadwal}
                     isLoading={isLoadingDashboard}
                 >
                     {/* Info Card + CTA */}
@@ -162,8 +162,8 @@ export default function PendaftaranPage() {
                                             {nextStepLink === '/user/dashboard/pendaftaran/identitas' ? 'Siap mendaftar?' : 'Lanjutkan Pengisian?'}
                                         </p>
                                         <p className="text-xs text-gray-500">
-                                            {nextStepLink === '/user/dashboard/pendaftaran/identitas' 
-                                                ? 'Mulai dengan mengisi data identitas peserta didik terlebih dahulu.' 
+                                            {nextStepLink === '/user/dashboard/pendaftaran/identitas'
+                                                ? 'Mulai dengan mengisi data identitas peserta didik terlebih dahulu.'
                                                 : 'Lanjutkan pengisian form Anda dari langkah terakhir yang tersimpan.'}
                                         </p>
                                     </div>

@@ -183,10 +183,31 @@ function PrestasiForm({ onListChange, readOnly = false }) {
             newList = [...prestasiList, prestasi]
         }
 
+        Swal.fire({
+            title: 'Menyimpan Data...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading()
+            }
+        })
+
         const success = await saveToApi(newList)
         if (success) {
             await mutate() // useEffect akan update prestasiList dari data server (URL Supabase)
             onListChange?.(newList.length)
+            
+            Swal.fire({
+                icon: 'success',
+                title: editingIndex !== null ? 'Diperbarui' : 'Ditambahkan',
+                text: editingIndex !== null ? 'Data prestasi berhasil diperbarui.' : 'Data prestasi berhasil ditambahkan.',
+                timer: 1500,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'rounded-3xl'
+                }
+            })
+
             setEditingIndex(null)
             setPrestasi(EMPTY_PRESTASI)
         }
@@ -202,14 +223,42 @@ function PrestasiForm({ onListChange, readOnly = false }) {
     }
 
     const handleDelete = async (index) => {
-        const newList = prestasiList.filter((_, i) => i !== index)
-        const success = await saveToApi(newList)
-        if (success) {
-            await mutate() // ambil data terbaru dari server
-            onListChange?.(newList.length)
-            if (editingIndex === index) {
-                setEditingIndex(null)
-                setPrestasi(EMPTY_PRESTASI)
+        const result = await Swal.fire({
+            title: 'Hapus Prestasi?',
+            text: "Data prestasi akan dihapus permanen.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: 'rounded-3xl',
+                confirmButton: 'rounded-xl px-6 py-2.5 font-bold',
+                cancelButton: 'rounded-xl px-6 py-2.5 font-bold'
+            }
+        })
+
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Menghapus Data...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+
+            const newList = prestasiList.filter((_, i) => i !== index)
+            const success = await saveToApi(newList)
+            if (success) {
+                await mutate() // ambil data terbaru dari server
+                onListChange?.(newList.length)
+                if (editingIndex === index) {
+                    setEditingIndex(null)
+                    setPrestasi(EMPTY_PRESTASI)
+                }
+                Swal.fire({ icon: 'success', title: 'Dihapus', text: 'Data prestasi berhasil dihapus', timer: 1500, showConfirmButton: false })
             }
         }
     }
@@ -222,7 +271,7 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                 title={isEditing ? "Edit Data Prestasi" : "Tambah Prestasi"}
                 description={isEditing ? "Ubah detail prestasi yang telah dipilih" : "Tambahkan prestasi maksimal 3 item terbaik"}
                 icon={Trophy}
-                className={isEditing ? "border-2 border-amber-200 p-6 rounded-3xl bg-amber-50/30" : ""}
+                className={isEditing ? "border-2 border-amber-200 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-amber-50/30" : ""}
             >
                 <FormGrid cols={2}>
                     <FormInput

@@ -16,14 +16,14 @@ export function useForm() {
         setError(null);
         setSuccessMessage(null);
 
-        Swal.fire({
-            title: 'Menyimpan Data...',
-            text: 'Mohon tunggu sebentar',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
+        // Swal.fire({
+        //     title: 'Menyimpan Data...',
+        //     text: 'Mohon tunggu sebentar',
+        //     allowOutsideClick: false,
+        //     didOpen: () => {
+        //         Swal.showLoading();
+        //     }
+        // });
 
         try {
             if (!id_pendaftaran) {
@@ -53,13 +53,13 @@ export function useForm() {
             }
 
             setSuccessMessage(result.message || "Data berhasil disimpan!");
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: result.message || 'Data berhasil disimpan dengan aman.',
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#059669',
-            });
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: 'Berhasil!',
+            //     text: result.message || 'Data berhasil disimpan dengan aman.',
+            //     confirmButtonText: 'OK',
+            //     confirmButtonColor: '#059669',
+            // });
             return result.data; // Mengembalikan data hasil upsert dari backend
 
         } catch (err) {

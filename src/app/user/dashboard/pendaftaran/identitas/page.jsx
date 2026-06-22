@@ -118,12 +118,30 @@ export default function IdentitasPage() {
                 return;
             }
 
+            Swal.fire({
+                title: 'Menyimpan Data...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+
             const success = await submitForm(idPendaftaran, formData)
 
             if (success) {
                 await mutate() // Update cache SWR agar StepGuard tahu form ini sudah diselesaikan
                 setIsSaved(true)
                 setHasData(true) // set untuk button batal
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Tersimpan!',
+                    text: 'Data identitas berhasil disimpan.',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    customClass: { popup: 'rounded-3xl' }
+                })
             }
         } catch (error) {
             console.error("Gagal simpan identitas:", error)

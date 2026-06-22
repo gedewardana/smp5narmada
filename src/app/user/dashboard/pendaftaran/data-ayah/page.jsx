@@ -3,11 +3,11 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import Swal from "sweetalert2"
 import { useRouter } from 'next/navigation'
 import FormWrapper from "@/components/ui-user/pendaftaran/FormWrapper"
-import StepIndicator from "@/components/ui-user/pendaftaran/StepIndicator"
+// import StepIndicator from "@/components/ui-user/pendaftaran/StepIndicator"
 import OrangTuaForm from "@/components/ui-user/pendaftaran/form/AyahForm"
 import NavigationButtons from "@/components/ui-user/pendaftaran/form/NavigationButtons"
 import StepQuestion from "@/components/ui-user/pendaftaran/StepQuestion"
-import Header from "@/components/ui-user/pendaftaran/Header"
+// import Header from "@/components/ui-user/pendaftaran/Header"
 
 import { useForm } from '@/hooks/useForm'
 import { useAuth } from '@/hooks/useAuth'
@@ -92,6 +92,15 @@ export default function DataAyahPage() {
                 return;
             }
 
+            Swal.fire({
+                title: 'Menyimpan Data...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+
             // Backend validation (fullPendaftaranSchema) requires complete identitas data
             const payload = {
                 ...(existingData?.identitas || {}),
@@ -104,6 +113,15 @@ export default function DataAyahPage() {
                 await mutate()
                 setIsSaved(true)
                 setHasData(true)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Tersimpan!',
+                    text: 'Data ayah kandung berhasil disimpan.',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    customClass: { popup: 'rounded-3xl' }
+                })
             }
         } catch (error) {
             console.error("Gagal simpan data ayah:", error)

@@ -11,7 +11,7 @@ export default function PendaftaranLayout({ children }) {
 
     return (
         <div className="min-h-screen bg-gray-50/50 pb-20">
-            <div className="max-w-6xl mx-auto px-4 pt-4">
+            <div className="max-w-6xl mx-auto px-2 sm:px-4 pt-4">
 
                 
 
@@ -34,7 +34,7 @@ export default function PendaftaranLayout({ children }) {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -10 }}
                             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                            className="p-8 md:p-12 lg:p-16"
+                            className="p-4 sm:p-8 md:p-12 lg:p-16"
                         >
                             <div className="max-w-4xl mx-auto">
                                 <StepGuard>
