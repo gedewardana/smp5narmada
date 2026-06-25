@@ -63,14 +63,14 @@ export default function PengumumanPage() {
             />
 
             {/* Langkah Selanjutnya — hanya jika DITERIMA */}
-            {/* {pengumuman.hasil_pengumuman === 'DITERIMA' && (
+            {pengumuman.hasil_pengumuman === 'DITERIMA' && (
                 <LangkahSelanjutnya
                     data={dataPendaftar}
                     tanggalDaftarUlang={dashboard?.daftar_ulang_range || "-"}
                     lokasiDaftarUlang="SMP Negeri 5 Narmada"
                     jamOperasional="08.00–14.00 WITA"
                 />
-            )} */}
+            )}
         </div>
     )
 }
