@@ -142,7 +142,7 @@ export default function DataIbuPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_pendaftaran: idPendaftaran, step_key: 'data-ibu' })
             });
-            mutate();
+            await mutate();
         } catch (error) {
             console.error('Failed to skip step', error);
         }

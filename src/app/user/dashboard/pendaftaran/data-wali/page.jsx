@@ -138,7 +138,7 @@ export default function DataWaliPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_pendaftaran: idPendaftaran, step_key: 'data-wali' })
             });
-            mutate();
+            await mutate();
         } catch (error) {
             console.error('Failed to skip step', error);
         }

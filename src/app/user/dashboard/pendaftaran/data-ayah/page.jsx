@@ -153,7 +153,7 @@ export default function DataAyahPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_pendaftaran: idPendaftaran, step_key: 'data-ayah' })
             });
-            mutate();
+            await mutate();
         } catch (error) {
             console.error('Failed to skip step', error);
         }

@@ -33,7 +33,7 @@ export default function DataPrestasiPage() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id_pendaftaran: idPendaftaran, step_key: 'data-prestasi' })
                 });
-                mutate(`/api/pendaftaran/${idPendaftaran}`);
+                await mutate(`/api/pendaftaran/${idPendaftaran}`);
             } catch (error) {
                 console.error('Failed to skip step', error);
             }
