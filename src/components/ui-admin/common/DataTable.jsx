@@ -213,20 +213,8 @@ function DataTable({
                 </div>
             </div>
 
-            {/* Float: Scroll To Top Overlay */}
-            {showScrollTop && (
-                <button
-                    onClick={scrollToTop}
-                    title="Kembali ke atas"
-                    className="absolute bottom-16 right-10 w-12 h-12 bg-indigo-600 text-white rounded-2xl shadow-2xl shadow-indigo-600/30 flex items-center justify-center animate-in fade-in slide-in-from-bottom-6 transition-all hover:bg-indigo-700 hover:-translate-y-2 active:scale-95 group/top z-50 overflow-hidden"
-                >
-                    <ArrowUp className="w-5 h-5 transition-transform group-hover/top:scale-125" />
-                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/top:translate-y-0 transition-transform duration-500" />
-                </button>
-            )}
-
-            {/* Footer: Metadata & Branding */}
-            <div className="flex flex-col sm:flex-row items-center justify-between mt-8 px-6 gap-4 print:hidden">
+            {/* Footer: Metadata & Branding & Actions */}
+            <div className="flex flex-col sm:flex-row items-center justify-between mt-6 px-6 gap-4 print:hidden">
                 <div className="flex items-center gap-3 py-2 px-4 bg-slate-100/50 rounded-xl border border-slate-100">
                     <Info className="w-3.5 h-3.5 text-slate-400" />
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
@@ -234,9 +222,23 @@ function DataTable({
                     </p>
                 </div>
                 
-                <div className="flex items-center gap-2.5 text-slate-300 group-hover/table-container:text-indigo-400 transition-all duration-500 cursor-default">
-                    <Fingerprint className="w-4 h-4" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.25em]">Command Hub</span>
+                <div className="flex items-center gap-4">
+                    {/* Scroll to Top - Integrated into footer to avoid covering table row actions */}
+                    {showScrollTop && (
+                        <button
+                            onClick={scrollToTop}
+                            title="Kembali ke atas"
+                            className="group flex items-center gap-2 px-4 py-2 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-600 rounded-xl transition-all duration-300 animate-in fade-in slide-in-from-right-4 border border-indigo-100 shadow-sm active:scale-95"
+                        >
+                            <ArrowUp className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-1" />
+                            <span className="text-[10px] font-black uppercase tracking-widest hidden sm:inline-block">Ke Atas</span>
+                        </button>
+                    )}
+
+                    <div className="flex items-center gap-2.5 text-slate-300 group-hover/table-container:text-indigo-400 transition-all duration-500 cursor-default">
+                        <Fingerprint className="w-4 h-4" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.25em]">Command Hub</span>
+                    </div>
                 </div>
             </div>
         </div>
