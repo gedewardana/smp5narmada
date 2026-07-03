@@ -7,7 +7,7 @@ import { HelpCircle, ArrowRight, SkipForward, ArrowLeft } from 'lucide-react'
  * StepQuestion — Premium confirmation card for optional form sections.
  * Asks the user whether they want to fill in optional data or skip it.
  */
-export default function StepQuestion({ question, onYes, onNo, prevLink }) {
+export default function StepQuestion({ question, onYes, onNo, prevLink, isSkipping = false }) {
     return (
         <div className="relative bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             {/* Top Accent Bar */}
@@ -46,15 +46,26 @@ export default function StepQuestion({ question, onYes, onNo, prevLink }) {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                     <button
                         onClick={onNo}
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-50 hover:border-slate-300 transition-all"
+                        disabled={isSkipping}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-50 hover:border-slate-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <SkipForward className="w-4 h-4" />
-                        Tidak, Lewati
+                        {isSkipping ? (
+                            <>
+                                <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" />
+                                Memproses...
+                            </>
+                        ) : (
+                            <>
+                                <SkipForward className="w-4 h-4" />
+                                Tidak, Lewati
+                            </>
+                        )}
                     </button>
 
                     <button
                         onClick={onYes}
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 shadow-lg shadow-blue-500/20 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                        disabled={isSkipping}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 shadow-lg shadow-blue-500/20 hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                     >
                         Ya, Isi Data
                         <ArrowRight className="w-4 h-4" />

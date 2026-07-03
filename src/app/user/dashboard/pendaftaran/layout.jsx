@@ -47,7 +47,7 @@ export default function PendaftaranLayout({ children }) {
                     {/* Minimalist Footer */}
                     <footer className="bg-gray-50/20 px-8 py-5 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
-                            Portal PPDB • SMPN 5 Narmada
+                            Portal PMB • SMPN 5 Narmada
                         </p>
                         <div className="flex gap-6">
                             <span className="text-[10px] text-gray-400 font-medium hover:text-blue-500 cursor-help transition-colors">Panduan</span>

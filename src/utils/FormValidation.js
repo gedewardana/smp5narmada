@@ -46,8 +46,8 @@ export const identitasSchemaBase = z.object({
   telp_rumah: z.string().max(20).optional().nullable(),
   no_hp: z.string().max(20).optional().nullable(),
   email_pribadi: z.string().email("Format email tidak valid").or(z.literal('')).optional().nullable(),
-  penerima_kps_pkh: z.coerce.boolean().optional().nullable(),
-  penerima_kip: z.coerce.boolean().optional().nullable(),
+  penerima_kps_pkh: z.preprocess((val) => val === 'true' ? true : val === 'false' ? false : val, z.boolean().optional().nullable()),
+  penerima_kip: z.preprocess((val) => val === 'true' ? true : val === 'false' ? false : val, z.boolean().optional().nullable()),
   rt: z.string().max(5).optional().nullable(),
   rw: z.string().max(5).optional().nullable(),
 

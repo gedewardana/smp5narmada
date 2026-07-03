@@ -22,6 +22,7 @@ export default function DataAyahPage() {
     const [isSaved, setIsSaved] = useState(false)
     const [showForm, setShowForm] = useState(false) // Awalnya tampilkan pertanyaan
     const [hasData, setHasData] = useState(false)
+    const [isSkipping, setIsSkipping] = useState(false)
 
     const idPendaftaran = user?.id_pendaftaran
 
@@ -147,6 +148,7 @@ export default function DataAyahPage() {
 
     // Jawab Tidak → tandai sebagai skipped, lanjut ke step berikutnya
     const handleNo = async () => {
+        setIsSkipping(true);
         try {
             await fetch('/api/pendaftaran/skip', {
                 method: 'POST',
@@ -156,6 +158,8 @@ export default function DataAyahPage() {
             await mutate();
         } catch (error) {
             console.error('Failed to skip step', error);
+        } finally {
+            setIsSkipping(false);
         }
         router.push('/user/dashboard/pendaftaran/data-ibu')
     }
@@ -173,6 +177,7 @@ export default function DataAyahPage() {
                         onYes={handleYes}
                         onNo={handleNo}
                         prevLink="/user/dashboard/pendaftaran/identitas"
+                        isSkipping={isSkipping}
                     />
                 </FormWrapper>
             ) : (

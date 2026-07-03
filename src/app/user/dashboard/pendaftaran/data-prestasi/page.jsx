@@ -16,6 +16,7 @@ export default function DataPrestasiPage() {
     const { data: existingData } = usePendaftaranID(idPendaftaran)
     const [showForm, setShowForm] = useState(false)
     const [listCount, setListCount] = useState(0)
+    const [isSkipping, setIsSkipping] = useState(false)
 
     useEffect(() => {
         if (existingData?.prestasi && existingData.prestasi.length > 0) {
@@ -27,6 +28,7 @@ export default function DataPrestasiPage() {
 
     const handleNo = async () => {
         if (idPendaftaran) {
+            setIsSkipping(true);
             try {
                 await fetch('/api/pendaftaran/skip', {
                     method: 'POST',
@@ -36,6 +38,8 @@ export default function DataPrestasiPage() {
                 await mutate(`/api/pendaftaran/${idPendaftaran}`);
             } catch (error) {
                 console.error('Failed to skip step', error);
+            } finally {
+                setIsSkipping(false);
             }
         }
         router.push('/user/dashboard/pendaftaran/persyaratan')
@@ -50,6 +54,7 @@ export default function DataPrestasiPage() {
                         onYes={handleYes}
                         onNo={handleNo}
                         prevLink="/user/dashboard/pendaftaran/data-periodik"
+                        isSkipping={isSkipping}
                     />
                 </FormWrapper>
             ) : (

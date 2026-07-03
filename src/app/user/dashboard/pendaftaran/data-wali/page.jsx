@@ -19,6 +19,7 @@ export default function DataWaliPage() {
     const [isSaved, setIsSaved] = useState(false)
     const [showForm, setShowForm] = useState(false) // Awalnya tampilkan pertanyaan
     const [hasData, setHasData] = useState(false)
+    const [isSkipping, setIsSkipping] = useState(false)
 
     const idPendaftaran = user?.id_pendaftaran
 
@@ -132,6 +133,7 @@ export default function DataWaliPage() {
 
     const handleYes = () => setShowForm(true)
     const handleNo = async () => {
+        setIsSkipping(true);
         try {
             await fetch('/api/pendaftaran/skip', {
                 method: 'POST',
@@ -141,6 +143,8 @@ export default function DataWaliPage() {
             await mutate();
         } catch (error) {
             console.error('Failed to skip step', error);
+        } finally {
+            setIsSkipping(false);
         }
         router.push('/user/dashboard/pendaftaran/data-periodik')
     }
@@ -158,6 +162,7 @@ export default function DataWaliPage() {
                         onYes={handleYes}
                         onNo={handleNo}
                         prevLink="/user/dashboard/pendaftaran/data-ibu"
+                        isSkipping={isSkipping}
                     />
                 </FormWrapper>
             ) : (

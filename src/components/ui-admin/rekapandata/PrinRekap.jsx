@@ -17,18 +17,19 @@ function PrinRekap({ selectedYear }) {
 
     const totalDaftar = data?.total_pendaftar ?? (totals.pendaftarL + totals.pendaftarP)
     const totalDiterima = data?.diterima ?? (totals.diterimaL + totals.diterimaP)
+    const dayaTampung = data?.daya_tampung ?? 0
 
-    const tanggalCetak = new Intl.DateTimeFormat('id-ID', {
-        day: 'numeric', month: 'long', year: 'numeric'
-    }).format(new Date())
+    // const tanggalCetak = new Intl.DateTimeFormat('id-ID', {
+    //     day: 'numeric', month: 'long', year: 'numeric'
+    // }).format(new Date())
 
     return (
         <div className="rekap-print-container">
 
             {/* Tanggal Cetak - pojok kanan atas */}
-            <div className="tanggal-cetak">
+            {/* <div className="tanggal-cetak">
                 Narmada, {tanggalCetak}
-            </div>
+            </div> */}
 
             {/* HEADER TABLE */}
             <div className="header-title-print">
@@ -106,11 +107,11 @@ function PrinRekap({ selectedYear }) {
                                 Jumlah
                             </td>
                             {/* Gabungan Pendaftar L & P (2 Kolom) */}
-                            <td colSpan="2" className="text-center font-black text-blue">
+                            <td colSpan="2" className="text-center font-black">
                                 {totalDaftar}
                             </td>
                             {/* Gabungan Diterima & Total (3 Kolom) */}
-                            <td colSpan="3" className="text-center font-black text-green">
+                            <td colSpan="3" className="text-center font-black">
                                 {totalDiterima}
                             </td>
                         </tr>
@@ -118,12 +119,48 @@ function PrinRekap({ selectedYear }) {
                 </table>
             </div>
 
-            {/* KETERANGAN */}
-            <div className="keterangan-box">
-                <p className="font-semibold">Keterangan:</p>
-                <p>L = Laki-laki</p>
-                <p>P = Perempuan</p>
+            {/*ringkasan akhir*/}
+            <div className="flex justify-between items-start mt-6 text-sm">
+                <div className="keterangan-box !mt-0">
+                    <p className="font-semibold underline mb-1">Keterangan:</p>
+                    <p>L = Laki-laki</p>
+                    <p>P = Perempuan</p>
+                </div>
+                <div className="text-sm text-black">
+                    <table className="w-auto font-semibold">
+                        <tbody>
+                            <tr>
+                                <td className="pb-1 pr-4 text-left">Daya Tampung</td>
+                                <td className="pb-1 pr-2">:</td>
+                                <td className="pb-1 text-right">{dayaTampung} Siswa</td>
+                            </tr>
+                            <tr>
+                                <td className="pb-1 pr-4 text-left">Total Pendaftar</td>
+                                <td className="pb-1 pr-2">:</td>
+                                <td className="pb-1 text-right">{totalDaftar} Siswa</td>
+                            </tr>
+                            <tr>
+                                <td className="pb-1 pr-4 text-left">Total Diterima</td>
+                                <td className="pb-1 pr-2">:</td>
+                                <td className="pb-1 text-right">{totalDiterima} Siswa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
+            {/* TANDA TANGAN PENGESAHAN */}
+            {/* <div className="flex justify-end mt-12 text-sm">
+                <div className="text-center w-64">
+                    <p>Narmada, {new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())}</p>
+                    <p className="font-semibold mt-1">Ketua Panitia PPDB</p>
+                    
+                    <div className="h-24"></div>
+                    
+                    <p className="font-bold underline text-base">.......................................</p>
+                    <p>NIP. ..............................</p>
+                </div>
+            </div> */}
 
             <style jsx>{`
                 .rekap-print-container {

@@ -2,6 +2,8 @@
 
 import { useRef } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 import { motion } from 'framer-motion'
 import ButtonReasuble from '@/components/buttonreasuble/ButtonReasuble'
 import {
@@ -57,6 +59,7 @@ export default function StatusVerifikasi({
 
     // Ref untuk elemen KartuPreview yang akan di-capture sebagai PDF
     const kartuRef = useRef(null)
+    const router = useRouter()
 
     // Ambil data kartu dari dashboard
     const { data: dashboardData } = useUserDashboard()
@@ -74,6 +77,19 @@ export default function StatusVerifikasi({
 
     const handleDownload = () => {
         downloadPDF(kartuRef, `Kartu-Pendaftaran-${kartuData.nomor_pendaftaran}.pdf`)
+    }
+
+    const handlePerbaikiData = () => {
+        if (dashboardData?.jadwal_aktif?.is_active) {
+            router.push('/user/dashboard/pendaftaran/review-data')
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Pendaftaran Ditutup',
+                text: 'Mohon maaf, pendaftaran telah ditutup. Anda tidak dapat memperbaiki data saat ini.',
+                confirmButtonColor: '#3085d6',
+            })
+        }
     }
 
     // Map warna Tailwind secara dinamis (untuk menghindari purge CSS issue)
@@ -172,7 +188,7 @@ export default function StatusVerifikasi({
                         <div className="mt-10 flex flex-wrap gap-4 border-t border-gray-100 pt-8">
                             {status === 'PERLU_PERBAIKAN' ? (
                                 <>
-                                    <ButtonReasuble href="/user/dashboard/pendaftaran/ringkasan-data" variant="primary">
+                                    <ButtonReasuble onClick={handlePerbaikiData} variant="primary">
                                         <Edit3 className="w-4 h-4 mr-2" /> Perbaiki Data
                                     </ButtonReasuble>
                                     <ButtonReasuble href="https://wa.me/..." variant="outline">

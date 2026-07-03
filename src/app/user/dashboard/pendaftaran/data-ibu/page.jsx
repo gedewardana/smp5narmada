@@ -19,6 +19,7 @@ export default function DataIbuPage() {
     const [isSaved, setIsSaved] = useState(false)
     const [showForm, setShowForm] = useState(false) // Awalnya tampilkan pertanyaan
     const [hasData, setHasData] = useState(false)
+    const [isSkipping, setIsSkipping] = useState(false)
 
     const idPendaftaran = user?.id_pendaftaran
 
@@ -136,6 +137,7 @@ export default function DataIbuPage() {
 
     const handleYes = () => setShowForm(true)
     const handleNo = async () => {
+        setIsSkipping(true);
         try {
             await fetch('/api/pendaftaran/skip', {
                 method: 'POST',
@@ -145,6 +147,8 @@ export default function DataIbuPage() {
             await mutate();
         } catch (error) {
             console.error('Failed to skip step', error);
+        } finally {
+            setIsSkipping(false);
         }
         router.push('/user/dashboard/pendaftaran/data-wali')
     }
@@ -162,6 +166,7 @@ export default function DataIbuPage() {
                         onYes={handleYes}
                         onNo={handleNo}
                         prevLink="/user/dashboard/pendaftaran/data-ayah"
+                        isSkipping={isSkipping}
                     />
                 </FormWrapper>
             ) : (

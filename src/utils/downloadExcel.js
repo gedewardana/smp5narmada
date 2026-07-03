@@ -4,19 +4,30 @@ export function downloadExcel(ref, fileName) {
     try {
         const element = ref.current
         
-        // Cari elemen tabel di dalam komponen
-        const table = element.querySelector('table')
+        // Cari semua tabel di dalam komponen
+        const tables = element.querySelectorAll('table')
         
-        if (!table) {
+        if (tables.length === 0) {
             alert("Tabel tidak ditemukan untuk diekspor.")
             return
         }
 
-        // Convert tabel HTML menjadi workbook Excel
-        // SheetJS otomatis membaca thead, tbody, rowspan, dan colspan!
-        const workbook = XLSX.utils.table_to_book(table, {
-            sheet: "Rekap Data"
-        })
+        // Convert tabel HTML utama (pertama) menjadi worksheet
+        const ws = XLSX.utils.table_to_sheet(tables[0])
+
+        // Jika ada tabel lain (misalnya Ringkasan Akhir), gabungkan ke bawahnya
+        for (let i = 1; i < tables.length; i++) {
+            const wsNext = XLSX.utils.table_to_sheet(tables[i])
+            const dataNext = XLSX.utils.sheet_to_json(wsNext, { header: 1 })
+            
+            // Tambahkan baris kosong sebagai pemisah, lalu tambahkan datanya
+            XLSX.utils.sheet_add_aoa(ws, [[]], { origin: -1 })
+            XLSX.utils.sheet_add_aoa(ws, dataNext, { origin: -1 })
+        }
+
+        // Buat workbook dan masukkan worksheet
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, ws, "Rekap Data")
 
         // Tulis dan download file excel
         XLSX.writeFile(workbook, fileName)
