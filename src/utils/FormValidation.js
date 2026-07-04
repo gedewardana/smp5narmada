@@ -28,7 +28,7 @@ export const identitasSchemaBase = z.object({
   anak_ke: z.coerce.number({ invalid_type_error: "Anak ke- wajib diisi" }).min(1, "Anak ke- minimal 1"),
   id_transportasi: z.coerce.number({ invalid_type_error: "Transportasi wajib dipilih" }).min(1, "Transportasi wajib dipilih"),
   id_jenis_tinggal: z.coerce.number({ invalid_type_error: "Jenis tinggal wajib dipilih" }).min(1, "Jenis tinggal wajib dipilih"),
-                                 // NOT NULL
+  // NOT NULL
   no_reg_akta_lahir: z.string().min(1, "No. Akta kelahiran wajib diisi").max(40, "Maks. 40 karakter"),
   alamat_tempat_tinggal: z.string().min(5, "Alamat wajib diisi").max(255),
   id_provinsi: z.coerce.number({ invalid_type_error: "Provinsi wajib dipilih" }).min(1, "Provinsi wajib dipilih"),
@@ -57,7 +57,7 @@ export const identitasSchemaBase = z.object({
   no_kip: z.string().max(6).optional().nullable(),
 
   // 
-// === CONDITIONAL REQUIRED (wajib hanya jika penerima_kps_pkh = true) ===
+  // === CONDITIONAL REQUIRED (wajib hanya jika penerima_kps_pkh = true) ===
   no_kks: z.string().max(30).optional().nullable(),
 });
 
@@ -132,10 +132,10 @@ export const waliSchema = z.object({
  * Skema Validasi Data Periodik (Kesehatan & Jarak)
  */
 export const periodikSchema = z.object({
-  tinggi_badan: z.coerce.number().min(10, "Tinggi badan tidak valid").max(300),
-  berat_badan: z.coerce.number().min(1, "Berat badan tidak valid").max(300),
-  jarak_tempat_tinggal_kesekolah: z.coerce.number().min(1, "Jarak tidak valid"),
-  waktu_tempuh_berangkat_sekolah: z.coerce.number().min(1, "Waktu tempuh tidak valid"),
+  tinggi_badan: z.coerce.number().min(10, "Tinggi badan wajib diisi").max(300, "Tinggi badan maksimal 300 cm"),
+  berat_badan: z.coerce.number().min(1, "Berat badan wajib diisi").max(300, "Berat badan maksimal 300 kg"),
+  jarak_tempat_tinggal_kesekolah: z.coerce.number().min(1, "Jarak wajib diisi").max(99999.99, "Data tidak valid"),
+  waktu_tempuh_berangkat_sekolah: z.coerce.number().min(1, "Waktu wajib diisi").max(999.99, "Data tidak valid"),
 });
 
 /**

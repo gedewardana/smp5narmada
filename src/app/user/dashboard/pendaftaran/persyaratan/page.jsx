@@ -107,7 +107,15 @@ export default function PersyaratanPage() {
             await submitPersyaratan(idPendaftaran, newList)
             await mutate() // Update cache SWR (ini akan memicu useEffect untuk update setUploadedFiles)
 
-            Swal.fire('Berhasil!', `File ${file.name} berhasil diunggah.`, 'success')
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Berhasil Diunggah',
+                text: file.name,
+                showConfirmButton: false,
+                timer: 2500,
+                customClass: { popup: 'rounded-3xl' }
+            })
         } catch (error) {
             console.error("Upload error:", error)
             Swal.fire('Gagal', error.message || 'Terjadi kesalahan saat mengunggah berkas.', 'error')
@@ -138,7 +146,14 @@ export default function PersyaratanPage() {
                 await submitPersyaratan(idPendaftaran, newList)
                 await mutate() // Update cache SWR (ini akan memicu useEffect)
 
-                Swal.fire('Terhapus!', 'Berkas berhasil dihapus.', 'success')
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Berkas Dihapus',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    customClass: { popup: 'rounded-3xl' }
+                })
             } catch (error) {
                 console.error("Delete error:", error)
                 Swal.fire('Gagal', error.message || 'Gagal menghapus berkas.', 'error')

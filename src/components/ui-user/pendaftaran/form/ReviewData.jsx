@@ -29,9 +29,9 @@ export default function ReviewData({ data }) {
     // ─── Sub-components ───────────────────────────────────────────
 
     const DataRow = ({ label, value }) => (
-        <div className="flex items-start justify-between py-2.5 border-b border-slate-50 last:border-0 gap-4">
-            <dt className="text-[11px] font-black text-gray-400 uppercase tracking-widest shrink-0 w-40 pt-0.5">{label}</dt>
-            <dd className="text-sm text-gray-800 font-semibold text-right flex-1 break-words">{value || <span className="text-slate-300 font-normal">—</span>}</dd>
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between py-2.5 border-b border-slate-50 last:border-0 gap-1 sm:gap-4">
+            <dt className="text-[11px] font-black text-gray-400 uppercase tracking-widest shrink-0 sm:w-40 pt-0.5">{label}</dt>
+            <dd className="text-sm text-gray-800 font-semibold text-left sm:text-right flex-1 break-words">{value || <span className="text-slate-300 font-normal">—</span>}</dd>
         </div>
     )
 

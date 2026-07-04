@@ -38,7 +38,7 @@ const EMPTY_PRESTASI = {
  * Memotong nama file panjang, menjaga ekstensi tetap terlihat
  * Contoh: "sertifikat-olimpiade-sains-nasional-2024.pdf" → "sertifikat-olimpiade...2024.pdf"
  */
-const truncateFileName = (name, maxLength = 32) => {
+const truncateFileName = (name, maxLength = 5) => {
     if (!name || name.length <= maxLength) return name
     const lastDot = name.lastIndexOf('.')
     const ext = lastDot !== -1 ? name.slice(lastDot) : ''
@@ -99,6 +99,20 @@ function PrestasiForm({ onListChange, readOnly = false }) {
     const handleFileChange = (e) => {
         const file = e.target.files[0] || null
         if (file) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']
+            if (!allowedTypes.includes(file.type)) {
+                if (fileRef.current) fileRef.current.value = ''
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Format Tidak Sesuai',
+                    text: 'Hanya file JPG, PNG, atau PDF yang diperbolehkan.',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#ef4444',
+                    customClass: { popup: 'rounded-3xl' }
+                })
+                return
+            }
+
             const sizeMB = file.size / 1024 / 1024
             if (sizeMB > MAX_FILE_SIZE_MB) {
                 if (fileRef.current) fileRef.current.value = ''
@@ -373,14 +387,14 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                     </label>
 
                     {prestasi.bukti_prestasi ? (
-                        <div className="flex items-center justify-between p-4 bg-white border border-blue-200 rounded-2xl shadow-sm animate-in zoom-in-95 duration-300">
-                            <div className="flex items-center gap-4 overflow-hidden">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white border border-blue-200 rounded-2xl shadow-sm animate-in zoom-in-95 duration-300">
+                            <div className="flex items-center gap-4 w-full sm:w-auto flex-1 min-w-0">
                                 <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
                                     <FileText className="w-6 h-6" />
                                 </div>
-                                <div className="min-w-0">
+                                <div className="flex-1 min-w-0">
                                     <p
-                                        className="text-sm font-bold text-gray-900 pr-4"
+                                        className="text-sm font-bold text-red-500 pr-4 truncate"
                                         title={prestasi.bukti_prestasi.name ?? prestasi.bukti_prestasi}
                                     >
                                         {truncateFileName(
@@ -394,7 +408,7 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-end w-full sm:w-auto gap-2 pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100 mt-3 sm:mt-0">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -444,14 +458,14 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                     )}
                 </div>
 
-                <div className="mt-8 flex gap-3">
+                <div className="mt-8 flex flex-col sm:flex-row gap-3">
                     <Button
                         type="button"
                         onClick={handleSubmit}
                         disabled={isSaving}
-                        className={`h-11 px-8 rounded-xl font-bold transition-all active:scale-95 shadow-md ${isEditing ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-100' : 'bg-blue-600 hover:bg-blue-700 shadow-blue-100'}`}
+                        className={`h-11 px-8 rounded-xl font-bold transition-all active:scale-95 shadow-md w-full sm:w-auto ${isEditing ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-100' : 'bg-blue-600 hover:bg-blue-700 shadow-blue-100'}`}
                     >
-                        {isSaving ? 'Menyimpan...' : isEditing ? <><Save className="w-4 h-4 mr-2" />Simpan</> : <><Plus className="w-4 h-4 mr-2" />Tambah</>}
+                        {isSaving ? 'Menyimpan...' : isEditing ? <><Save className="w-4 h-4 mr-2 shrink-0" />Simpan</> : <><Plus className="w-4 h-4 mr-2 shrink-0" />Tambah</>}
                     </Button>
 
                     {isEditing && (
@@ -459,7 +473,7 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                             type="button"
                             onClick={handleCancelEdit}
                             variant="outline"
-                            className="h-11 px-8 rounded-xl font-bold border-gray-200 text-gray-500 hover:bg-gray-50 active:scale-95"
+                            className="h-11 px-8 rounded-xl font-bold border-gray-200 text-gray-500 hover:bg-gray-50 active:scale-95 w-full sm:w-auto"
                         >
                             Batal
                         </Button>
@@ -477,6 +491,7 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                     data={prestasiList}
                     onDelete={handleDelete}
                     onEdit={handleEditClick}
+                    isEditing={isEditing}
                 />
             </FormSection>
         </fieldset>

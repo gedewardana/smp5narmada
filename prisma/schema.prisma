@@ -389,7 +389,7 @@ model periodik {
   id_identitas_peserta_didik     Int                     @unique(map: "siswa_id")
   tinggi_badan                   Decimal                 @db.Decimal(5, 2)
   berat_badan                    Decimal                 @db.Decimal(5, 2)
-  jarak_tempat_tinggal_kesekolah Decimal                 @db.Decimal(5, 2)
+  jarak_tempat_tinggal_kesekolah Decimal                 @db.Decimal(7, 2)
   waktu_tempuh_berangkat_sekolah Int
   disimpan_pada                  DateTime?               @db.Timestamp(0)
   diperbaharui_pada              DateTime?               @db.Timestamp(0)

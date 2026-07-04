@@ -1,6 +1,6 @@
 import { Eye, Pencil, Trash2, Trophy, Medal, Award, Globe, Building2, Calendar } from "lucide-react"
 
-function PrestasiList({ data = [], onDelete, onEdit, readOnly = false }) {
+function PrestasiList({ data = [], onDelete, onEdit, readOnly = false, isEditing = false }) {
     // Handler untuk membuka berkas/bukti prestasi
     const handleViewProof = (bukti) => {
         if (!bukti) return
@@ -90,7 +90,8 @@ function PrestasiList({ data = [], onDelete, onEdit, readOnly = false }) {
                                     <button
                                         type="button"
                                         onClick={() => onEdit(index)}
-                                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-50 text-gray-500 hover:bg-amber-50 hover:text-amber-600 transition-colors active:scale-95"
+                                        disabled={isEditing}
+                                        className={`w-8 h-8 flex items-center justify-center rounded-lg bg-gray-50 transition-colors ${isEditing ? 'opacity-50 cursor-not-allowed text-gray-400' : 'text-gray-500 hover:bg-amber-50 hover:text-amber-600 active:scale-95'}`}
                                         title="Edit"
                                     >
                                         <Pencil className="w-4 h-4" />
@@ -98,7 +99,8 @@ function PrestasiList({ data = [], onDelete, onEdit, readOnly = false }) {
                                     <button
                                         type="button"
                                         onClick={() => onDelete(index)}
-                                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-50 text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors active:scale-95"
+                                        disabled={isEditing}
+                                        className={`w-8 h-8 flex items-center justify-center rounded-lg bg-gray-50 transition-colors ${isEditing ? 'opacity-50 cursor-not-allowed text-gray-400' : 'text-gray-500 hover:bg-red-50 hover:text-red-600 active:scale-95'}`}
                                         title="Hapus"
                                     >
                                         <Trash2 className="w-4 h-4" />
@@ -185,7 +187,8 @@ function PrestasiList({ data = [], onDelete, onEdit, readOnly = false }) {
                                                 <button
                                                     type="button"
                                                     onClick={() => onEdit(index)}
-                                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:bg-amber-50 hover:text-amber-600 transition-all active:scale-90"
+                                                    disabled={isEditing}
+                                                    className={`w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 transition-all ${isEditing ? 'opacity-50 cursor-not-allowed text-gray-400' : 'text-gray-400 hover:bg-amber-50 hover:text-amber-600 active:scale-90'}`}
                                                     title="Edit Data"
                                                 >
                                                     <Pencil className="w-4 h-4" />
@@ -193,7 +196,8 @@ function PrestasiList({ data = [], onDelete, onEdit, readOnly = false }) {
                                                 <button
                                                     type="button"
                                                     onClick={() => onDelete(index)}
-                                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-600 transition-all active:scale-90"
+                                                    disabled={isEditing}
+                                                    className={`w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 transition-all ${isEditing ? 'opacity-50 cursor-not-allowed text-gray-400' : 'text-gray-400 hover:bg-red-50 hover:text-red-600 active:scale-90'}`}
                                                     title="Hapus"
                                                 >
                                                     <Trash2 className="w-4 h-4" />

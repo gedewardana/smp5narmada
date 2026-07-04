@@ -63,7 +63,8 @@ function RingkasanDataPage() {
             })
 
             // Redirect ke dashboard pendaftaran untuk melihat status
-            window.location.href = "/user/dashboard/pendaftaran"
+            router.push("/user/dashboard/pendaftaran")
+            // window.location.href
 
         } catch (err) {
             Swal.fire({
