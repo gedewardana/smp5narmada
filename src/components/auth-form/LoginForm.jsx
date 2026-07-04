@@ -153,7 +153,7 @@ export default function LoginForm() {
                 className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2"
             >
                 {isLoading && <Loader2 className="h-5 w-5 animate-spin" />}
-                <span>{isLoading ? "Loading..." : "Masuk"}</span>
+                <span>{isLoading ? "Masuk..." : "Masuk"}</span>
             </button>
 
             {/* Link ke Register */}
