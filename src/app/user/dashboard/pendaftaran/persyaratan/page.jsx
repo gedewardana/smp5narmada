@@ -42,6 +42,18 @@ export default function PersyaratanPage() {
         return result.url
     }
 
+    // Hapus file dari Supabase Storage
+    const deleteBerkas = async (fileUrl) => {
+        if (!fileUrl || typeof fileUrl !== 'string') return;
+        try {
+            await fetch(`/api/upload/persyaratan?url=${encodeURIComponent(fileUrl)}`, {
+                method: 'DELETE',
+            })
+        } catch (err) {
+            console.error("Gagal menghapus file persyaratan:", err)
+        }
+    }
+
     const handleFileSelect = async (jenisBerkas, file) => {
         if (!idPendaftaran) {
             Swal.fire('Error', 'Sesi pendaftaran tidak valid.', 'error')
@@ -71,6 +83,12 @@ export default function PersyaratanPage() {
 
             // 1. Upload ke Storage
             const pathUrl = await uploadBukti(file)
+
+            // Hapus file lama jika sedang melakukan replace (timpa file)
+            const oldFile = uploadedFiles.find(f => f.jenis_berkas === jenisBerkas)
+            if (oldFile?.path_file && typeof oldFile.path_file === 'string') {
+                await deleteBerkas(oldFile.path_file)
+            }
 
             // 2. Buat objek berkas baru (sesuaikan dengan schema)
             const newFile = {
@@ -107,6 +125,12 @@ export default function PersyaratanPage() {
         if (result.isConfirmed) {
             try {
                 Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() })
+
+                // Hapus file fisik di Supabase
+                const itemToDelete = uploadedFiles.find(f => f.jenis_berkas === jenisBerkas)
+                if (itemToDelete?.path_file && typeof itemToDelete.path_file === 'string') {
+                    await deleteBerkas(itemToDelete.path_file)
+                }
 
                 // Gunakan jenis_berkas sebagai identifier yang lebih aman
                 const newList = uploadedFiles.filter(f => f.jenis_berkas !== jenisBerkas)

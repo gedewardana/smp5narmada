@@ -20,7 +20,8 @@ import {
     X,
     Eye,
     Plus,
-    Save
+    Save,
+    Trash2
 } from 'lucide-react'
 import { scrollToFirstError } from '@/utils/focusHelper'
 
@@ -110,10 +111,20 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                 })
                 return
             }
+
+            // Hapus file lama di Supabase jika sedang edit dan menimpa file
+            if (typeof prestasi.bukti_prestasi === 'string') {
+                deleteBukti(prestasi.bukti_prestasi) // jalan di background
+            }
         }
         setPrestasi(prev => ({ ...prev, bukti_prestasi: file }))
     }
+    
     const handleRemoveFile = () => {
+        // Hapus file lama di Supabase jika sedang edit dan file dihapus
+        if (typeof prestasi.bukti_prestasi === 'string') {
+            deleteBukti(prestasi.bukti_prestasi) // jalan di background
+        }
         setPrestasi(prev => ({ ...prev, bukti_prestasi: null }))
         if (fileRef.current) fileRef.current.value = ''
     }
@@ -131,6 +142,19 @@ function PrestasiForm({ onListChange, readOnly = false }) {
         if (!result.success) throw new Error(result.message || 'Gagal upload file')
         return result.url
     }
+
+    // Hapus file dari Supabase Storage
+    const deleteBukti = async (fileUrl) => {
+        if (!fileUrl || typeof fileUrl !== 'string') return;
+        try {
+            await fetch(`/api/upload/bukti-prestasi?url=${encodeURIComponent(fileUrl)}`, {
+                method: 'DELETE',
+            })
+        } catch (err) {
+            console.error("Gagal menghapus file:", err)
+        }
+    }
+
 
     // Simpan list ke API
     const saveToApi = async (newList) => {
@@ -248,6 +272,11 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                     Swal.showLoading()
                 }
             })
+
+            const itemToDelete = prestasiList[index]
+            if (itemToDelete?.bukti_prestasi && typeof itemToDelete.bukti_prestasi === 'string') {
+                await deleteBukti(itemToDelete.bukti_prestasi)
+            }
 
             const newList = prestasiList.filter((_, i) => i !== index)
             const success = await saveToApi(newList)
@@ -387,7 +416,7 @@ function PrestasiForm({ onListChange, readOnly = false }) {
                                     className="p-2.5 rounded-xl hover:bg-rose-50 text-gray-400 hover:text-rose-600 transition-all active:scale-90"
                                     title="Hapus"
                                 >
-                                    <X className="w-5 h-5" />
+                                    <Trash2 className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>

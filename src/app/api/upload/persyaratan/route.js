@@ -61,3 +61,41 @@ export async function POST(request) {
         return Response.json({ success: false, message: err.message }, { status: 500 })
     }
 }
+
+export async function DELETE(request) {
+    const session = await getServerSession(authOptions)
+    if (!session) {
+        return Response.json({ success: false, message: 'Unauthorized' }, { status: 401 })
+    }
+
+    try {
+        const { searchParams } = new URL(request.url)
+        const fileUrl = searchParams.get('url')
+
+        if (!fileUrl) {
+            return Response.json({ success: false, message: 'URL file tidak ditemukan' }, { status: 400 })
+        }
+
+        // Ekstrak path file dari public URL Supabase
+        // Contoh: https://[project_ref].supabase.co/storage/v1/object/public/persyaratan/persyaratan/123_456.jpg
+        const bucketPathIndex = fileUrl.indexOf('/persyaratan/')
+        if (bucketPathIndex === -1) {
+            return Response.json({ success: false, message: 'Format URL file tidak valid' }, { status: 400 })
+        }
+        
+        const filePath = fileUrl.substring(bucketPathIndex + '/persyaratan/'.length)
+        
+        const { error } = await supabaseAdmin.storage
+            .from('persyaratan')
+            .remove([filePath])
+
+        if (error) {
+             return Response.json({ success: false, message: error.message }, { status: 500 })
+        }
+
+        return Response.json({ success: true, message: 'File berhasil dihapus' })
+
+    } catch (err) {
+        return Response.json({ success: false, message: err.message }, { status: 500 })
+    }
+}
