@@ -40,23 +40,32 @@ export function formatDateRange(start, end) {
 
 /**
  * Menghitung sisa hari dari sekarang hingga tanggal target.
- * Perbandingan dilakukan per-hari (tengah malam → tengah malam) agar tidak terpengaruh
- * oleh jam saat fungsi dipanggil (misal jam 23:50 tidak dianggap sudah besok).
+ * Perbandingan dilakukan per-hari (tengah malam → tengah malam) menggunakan 
+ * zona waktu Asia/Makassar agar tidak terpengaruh oleh jam UTC server.
  * @param {Date|string} targetDate 
  * @returns {number|null}
  */
 export function calculateRemainingDays(targetDate) {
     if (!targetDate) return null;
 
-    // Prisma @db.Date disimpan sebagai T00:00:00.000Z (UTC midnight).
-    // Kita ekstrak string YYYY-MM-DD lalu buat objek Date midnight lokal agar apple-to-apple.
+    // 1. Ambil YYYY-MM-DD dari target (Prisma menyimpan murni di porsi UTC)
     const end = new Date(targetDate);
-    const endDateStr = end.toLocaleDateString('en-CA', { timeZone: 'UTC' }); // "YYYY-MM-DD"
-    const endDay = new Date(`${endDateStr}T00:00:00`); // midnight waktu lokal server/browser
+    const endStr = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'UTC',
+        year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(end);
+    const [endMonth, endDayStr, endYear] = endStr.split('/');
+    const endMidnight = new Date(`${endYear}-${endMonth}-${endDayStr}T00:00:00.000Z`);
 
-    const nowDay = new Date();
-    nowDay.setHours(0, 0, 0, 0); // midnight waktu lokal hari ini
+    // 2. Ambil YYYY-MM-DD hari ini berdasarkan zona waktu lokal (Asia/Makassar)
+    const now = new Date();
+    const nowStr = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Makassar',
+        year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(now);
+    const [nowMonth, nowDayStr, nowYear] = nowStr.split('/');
+    const nowMidnight = new Date(`${nowYear}-${nowMonth}-${nowDayStr}T00:00:00.000Z`);
 
-    const diffTime = endDay.getTime() - nowDay.getTime();
+    const diffTime = endMidnight.getTime() - nowMidnight.getTime();
     return Math.round(diffTime / (1000 * 60 * 60 * 24));
 }

@@ -11,13 +11,13 @@ function EmptyPengumuman() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-100/40 rounded-full blur-3xl -z-10 group-hover:scale-110 transition-transform duration-700" />
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2" />
 
-          
+
             <div className="relative mb-8 transform transition-transform hover:scale-110 duration-500 ease-out z-10">
-                <Image 
-                    src="/images/EmptyPengumuman.png" 
-                    alt="Tidak ada pengumuman" 
-                    width={280} 
-                    height={280} 
+                <Image
+                    src="/images/EmptyPengumuman.png"
+                    alt="Tidak ada pengumuman"
+                    width={280}
+                    height={280}
                     className="object-contain drop-shadow-2xl"
                     priority
                 />
