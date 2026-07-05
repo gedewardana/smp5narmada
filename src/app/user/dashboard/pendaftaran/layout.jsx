@@ -49,15 +49,23 @@ export default function PendaftaranLayout({ children }) {
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
                             Portal PMB • SMPN 5 Narmada
                         </p>
-                        <div className="flex gap-6">
+                        {/* <div className="flex gap-6">
                             <span className="text-[10px] text-gray-400 font-medium hover:text-blue-500 cursor-help transition-colors">Panduan</span>
                             <span className="text-[10px] text-gray-400 font-medium hover:text-blue-500 cursor-help transition-colors">Privasi</span>
-                        </div>
+                        </div> */}
                     </footer>
                 </div>
 
                 <p className="mt-8 text-center text-sm text-gray-400">
-                    Butuh bantuan teknis? <span className="text-blue-600 font-bold cursor-pointer hover:underline underline-offset-4">Hubungi Admin</span>
+                    Butuh bantuan teknis?{" "}
+                    <a
+                        href="https://wa.me/6283156934647?text=Halo%20Admin,%20saya%20membutuhkan%20bantuan%20pendaftaran."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 font-bold hover:underline underline-offset-4"
+                    >
+                        Hubungi Admin
+                    </a>
                 </p>
 
             </div>
