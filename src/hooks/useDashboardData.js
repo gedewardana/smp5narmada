@@ -28,8 +28,8 @@ export function useDashboardData(filters = {}) {
 
     const { data, error, isLoading, mutate } = useSWR(url, fetcher, {
         // Konfigurasi opsional (sesuaikan dengan kebutuhan):
-        // refreshInterval: 60000, 
-        // revalidateOnFocus: true, 
+        refreshInterval: 30000, // Auto-refresh setiap 30 detik
+        revalidateOnFocus: true, // Auto-refresh ketika tab browser aktif kembali
     })
 
     return {

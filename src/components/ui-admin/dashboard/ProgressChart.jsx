@@ -7,6 +7,7 @@ import {
 } from 'recharts'
 import { TrendingUp, Users, RefreshCw } from 'lucide-react'
 import { getLocalYMD } from '@/utils/timezoneHelper'
+import { useDashboardData } from '@/hooks/useDashboardData'
 
 // ─── Custom Tooltip ───────────────────────────────────────────────────────────
 
@@ -39,29 +40,24 @@ const SERIES = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 function ProgressChart() {
-    const [data, setData] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+    const { data: dashboardData, isLoading, mutate } = useDashboardData()
+    const data = dashboardData?.chart || []
+    
+    const [isRefreshing, setIsRefreshing] = useState(false)
     const [lastUpdated, setLastUpdated] = useState(null)
 
-    const fetchDataChart = useCallback(async () => {
-        try {
-            const res = await fetch('/api/admin/dashboard')
-            if (!res.ok) return
-            const json = await res.json()
-            setData(json.chart || [])
-            setLastUpdated(new Date())
-        } catch (err) {
-            console.error('Chart fetch error:', err)
-        } finally {
-            setIsLoading(false)
-        }
-    }, [])
-
+    // Perbarui waktu 'terakhir diperbarui' ketika data berhasil dimuat
     useEffect(() => {
-        fetchDataChart()
-        const interval = setInterval(fetchDataChart, 30_000) // refresh setiap 30 detik
-        return () => clearInterval(interval)
-    }, [fetchDataChart])
+        if (dashboardData) {
+            setLastUpdated(new Date())
+        }
+    }, [dashboardData])
+
+    const handleRefresh = async () => {
+        setIsRefreshing(true)
+        await mutate()
+        setIsRefreshing(false)
+    }
 
     // Gunakan getLocalYMD untuk mencocokkan tanggal hari ini sesuai timezone WITA/WIB
     // agar tidak terjadi mismatch saat server berjalan di UTC
@@ -102,11 +98,12 @@ function ProgressChart() {
 
                     {/* Refresh button */}
                     <button
-                        onClick={fetchDataChart}
+                        onClick={handleRefresh}
+                        disabled={isRefreshing || isLoading}
                         title="Refresh data"
-                        className="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                        className="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all disabled:opacity-50"
                     >
-                        <RefreshCw className="w-3.5 h-3.5" />
+                        <RefreshCw className={`w-3.5 h-3.5 ${(isRefreshing || isLoading) ? 'animate-spin' : ''}`} />
                     </button>
                 </div>
             </div>
