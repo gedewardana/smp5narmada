@@ -6,7 +6,7 @@ import { Trophy, Frown, ShieldCheck, Calendar, FileText, MessageSquare, MapPin, 
 import { formatSingleDate } from '@/utils/dateUtils'
 import Link from 'next/link'
 import TemplateSuratTerima from '@/components/ui-user/pengumuman/TemplateSuratTerima'
- 
+
 
 /**
  * HasilCard — Professional Admission Result Card
@@ -55,7 +55,7 @@ function HasilCard({ pengumuman, data = {}, tahunAjaran = '-' }) {
         <div className={`relative border rounded-2xl overflow-hidden transition-all duration-700 ${style.wrapper}`}>
             {/* Top Accent Gradient */}
             <div className={`h-2 w-full ${style.accent}`} />
-            
+
             {/* Hidden template for PDF generation */}
             <div style={{ position: 'absolute', left: '-9999px', top: 0, width: '794px' }}>
                 <div ref={suratRef} style={{ width: '794px' }}><TemplateSuratTerima data={data} /></div>
@@ -142,7 +142,7 @@ function HasilCard({ pengumuman, data = {}, tahunAjaran = '-' }) {
                     {/* Tombol Unduh Surat Keputusan untuk status TIDAK_DITERIMA */}
                     {!diterima && (
                         <div className="flex justify-center mt-10">
-                            <button 
+                            <button
                                 onClick={() => downloadPDF(suratRef, `Surat-Terima-${data.nomor_pendaftaran?.replace(/\s+/g, '-') || 'Pendaftar'}.pdf`)}
                                 className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3.5 rounded-xl shadow-xl shadow-rose-500/25 flex items-center gap-3 text-sm font-black uppercase tracking-widest transition-all active:scale-95 group border border-rose-500 hover:border-rose-400"
                             >

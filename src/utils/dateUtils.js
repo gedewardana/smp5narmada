@@ -10,7 +10,7 @@
 export function formatSingleDate(date) {
     if (!date) return "-";
     return new Date(date).toLocaleDateString('id-ID', { 
-        day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' 
+        day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Makassar' 
     });
 }
 
@@ -26,8 +26,8 @@ export function formatDateRange(start, end) {
     const startDate = new Date(start);
     const endDate = new Date(end);
     
-    const formatDay = (d) => d.toLocaleDateString('id-ID', { day: '2-digit', timeZone: 'UTC' });
-    const formatMonthYear = (d) => d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+    const formatDay = (d) => d.toLocaleDateString('id-ID', { day: '2-digit', timeZone: 'Asia/Makassar' });
+    const formatMonthYear = (d) => d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric', timeZone: 'Asia/Makassar' });
     
     // Jika bulan dan tahun sama, format: "DD–DD Bulan YYYY"
     if (startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
@@ -48,10 +48,11 @@ export function formatDateRange(start, end) {
 export function calculateRemainingDays(targetDate) {
     if (!targetDate) return null;
 
-    // 1. Ambil YYYY-MM-DD dari target (Prisma menyimpan murni di porsi UTC)
+    // 1. Ambil YYYY-MM-DD dari target menggunakan zona waktu lokal (Asia/Makassar)
+    // Ini menangani kasus dimana tanggal dari DB bergeser jamnya (contoh 16:00 UTC)
     const end = new Date(targetDate);
     const endStr = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'UTC',
+        timeZone: 'Asia/Makassar',
         year: 'numeric', month: '2-digit', day: '2-digit'
     }).format(end);
     const [endMonth, endDayStr, endYear] = endStr.split('/');

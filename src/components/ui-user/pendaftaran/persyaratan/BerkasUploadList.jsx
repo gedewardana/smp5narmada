@@ -12,9 +12,9 @@ export default function BerkasUploadList({ uploadedFiles, onFileSelect, onDelete
         { jenis: 'AKTA', label: 'Akta Kelahiran', mandatory: true },
         { jenis: 'KK', label: 'Kartu Keluarga', mandatory: true },
         { jenis: 'SKL', label: 'Surat Keterangan Lulus', mandatory: true },
-        { jenis: 'KTP_AYAH', label: 'Kartu Tanda Penduduk Ayah', mandatory: true },
-        { jenis: 'KTP_IBU', label: 'Kartu Tanda Penduduk Ibu', mandatory: true },
-        { jenis: 'KIP', label: 'Kartu Indonesia Pintar', mandatory: false },
+        { jenis: 'KTP_AYAH', label: 'Kartu Tanda Penduduk Ayah/Wali', mandatory: false },
+        { jenis: 'KTP_IBU', label: 'Kartu Tanda Penduduk Ibu/Wali', mandatory: false },
+        { jenis: 'KIP', label: 'Kartu Indonesia Pintar/KKS/PKH (jika ada)', mandatory: false },
     ], [])
 
     const getUploadedFile = (jenis) => {

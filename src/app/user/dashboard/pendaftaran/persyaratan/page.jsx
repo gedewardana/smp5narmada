@@ -183,7 +183,7 @@ export default function PersyaratanPage() {
     }
 
     // Cek apakah semua berkas mandatory sudah diupload
-    const mandatoryTypes = ['AKTA', 'KK', 'SKL', 'KTP_AYAH', 'KTP_IBU']
+    const mandatoryTypes = ['AKTA', 'KK', 'SKL']
     const uploadedMandatory = uploadedFiles.filter(f => mandatoryTypes.includes(f.jenis_berkas))
     const allMandatoryUploaded = uploadedMandatory.length === mandatoryTypes.length
 
