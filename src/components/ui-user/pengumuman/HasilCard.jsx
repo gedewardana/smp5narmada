@@ -23,7 +23,7 @@ function HasilCard({ pengumuman, data = {}, tahunAjaran = '-' }) {
             iconBg: 'bg-emerald-50 text-emerald-600',
             icon: Trophy,
             title: 'Selamat! Anda Diterima',
-            subtitle: 'Anda terpilih sebagai calon siswa baru',
+            subtitle: 'Anda terpilih sebagai siswa baru smp negeri 5 Narmada',
             verdict: 'DITERIMA',
             verdictColor: 'text-emerald-600'
         }
