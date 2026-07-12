@@ -43,7 +43,7 @@ export default function CardSummary() {
             description: 'Data Kelulusan Seleksi',
             icon: UserCheck,
             variant: 'emerald',
-            details: data ? { L: data.laki_laki_diterima ?? 0, P: data.perempuan_diterima ?? 0 } : null
+            // details: data ? { L: data.laki_laki_diterima ?? 0, P: data.perempuan_diterima ?? 0 } : null
         },
     ]
 
