@@ -38,7 +38,17 @@ export async function DashboardData(tahun_ajaran = null) {
     }
 
     // 🚀 jalankan paralel (lebih cepat)
-    const [total, hariIni, DITERIMA, LAKILAKI, PEREMPUAN] = await Promise.all([
+    const [
+        total,
+        hariIni,
+        DITERIMA,
+        LAKILAKI,
+        PEREMPUAN,
+        LAKILAKI_HARI_INI,
+        PEREMPUAN_HARI_INI,
+        LAKILAKI_DITERIMA,
+        PEREMPUAN_DITERIMA
+    ] = await Promise.all([
         prisma.pendaftaran.count({ where: baseWhere }),
 
         prisma.pendaftaran.count({
@@ -76,6 +86,56 @@ export async function DashboardData(tahun_ajaran = null) {
                     jenis_kelamin: { nama: "PEREMPUAN" }
                 }
             }
+        }),
+
+        prisma.pendaftaran.count({
+            where: {
+                ...baseWhere,
+                tanggal_submit: {
+                    gte: todayStart,
+                    lte: todayEnd
+                },
+                identitas_peserta_didik: {
+                    jenis_kelamin: { nama: "LAKI-LAKI" }
+                }
+            }
+        }),
+
+        prisma.pendaftaran.count({
+            where: {
+                ...baseWhere,
+                tanggal_submit: {
+                    gte: todayStart,
+                    lte: todayEnd
+                },
+                identitas_peserta_didik: {
+                    jenis_kelamin: { nama: "PEREMPUAN" }
+                }
+            }
+        }),
+
+        prisma.pendaftaran.count({
+            where: {
+                ...baseWhere,
+                pengumuman: {
+                    pengumuman_hasil_seleksi: "DITERIMA"
+                },
+                identitas_peserta_didik: {
+                    jenis_kelamin: { nama: "LAKI-LAKI" }
+                }
+            }
+        }),
+
+        prisma.pendaftaran.count({
+            where: {
+                ...baseWhere,
+                pengumuman: {
+                    pengumuman_hasil_seleksi: "DITERIMA"
+                },
+                identitas_peserta_didik: {
+                    jenis_kelamin: { nama: "PEREMPUAN" }
+                }
+            }
         })
     ])
 
@@ -87,7 +147,11 @@ export async function DashboardData(tahun_ajaran = null) {
         hari_ini: hariIni,
         diterima: DITERIMA,
         laki_laki: LAKILAKI,
-        perempuan: PEREMPUAN
+        perempuan: PEREMPUAN,
+        laki_laki_hari_ini: LAKILAKI_HARI_INI,
+        perempuan_hari_ini: PEREMPUAN_HARI_INI,
+        laki_laki_diterima: LAKILAKI_DITERIMA,
+        perempuan_diterima: PEREMPUAN_DITERIMA
     }
 }
 
