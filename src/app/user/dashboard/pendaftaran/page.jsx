@@ -83,8 +83,18 @@ export default function PendaftaranPage() {
     const activeJadwal = dashboardData?.jadwal_aktif
 
     // Ambil nilai dari data API
-    const submitted = dashboardData?.raw?.status_pendaftaran === 'SUBMITTED'
-    const statusVerifikasi = dashboardData?.raw?.status_verifikasi ?? 'MENUNGGU_VERIFIKASI'
+    const rawStatusPendaftaran = dashboardData?.raw?.status_pendaftaran;
+    const rawStatusVerifikasi = dashboardData?.raw?.status_verifikasi;
+    
+    // Clean Code: Logika penyesuaian untuk menampilkan komponen StatusVerifikasi.
+    // Tampilkan StatusVerifikasi JIKA:
+    // 1. User sudah melakukan SUBMIT (menunggu verifikasi atau sudah diverifikasi)
+    // 2. ATAU user dikembalikan ke status DRAFT oleh panitia karena PERLU_PERBAIKAN / TOLAK
+    const showVerifikasiStatus = 
+        rawStatusPendaftaran === 'SUBMITTED' || 
+        (rawStatusPendaftaran === 'DRAFT' && ['PERLU_PERBAIKAN', 'TOLAK'].includes(rawStatusVerifikasi));
+
+    const statusVerifikasi = rawStatusVerifikasi ?? 'MENUNGGU_VERIFIKASI'
     const catatanPanitia = dashboardData?.raw?.catatan ?? null
     const tanggalVerifikasi = dashboardData?.raw?.tanggal_verifikasi ?? null
 
@@ -113,8 +123,8 @@ export default function PendaftaranPage() {
         <div className="">
 
 
-            {submitted ? (
-                /* ── Setelah Submit: hanya tampilkan status ── */
+            {showVerifikasiStatus ? (
+                /* ── Setelah Submit atau Dikembalikan Panitia: tampilkan status verifikasi ── */
                 <div className="mt-4">
                     <StatusVerifikasi
                         status={statusVerifikasi}

@@ -85,7 +85,7 @@ function KelolaPendaftaranContent() {
                 />
             )}
 
-            <CardSummaryPendaftaran />
+            <CardSummaryPendaftaran tahun_ajaran={filters.tahun_ajaran} />
 
             <div className=''>
                 <FilterPendaftaran

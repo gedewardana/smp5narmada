@@ -11,8 +11,8 @@ import {
 import SummaryCard from '../../reasublecomponents/SummaryCard'
 import { useDashboardData } from '@/hooks/useDashboardData'
 
-export default function CardSummaryPendaftaran() {
-    const { data, isLoading } = useDashboardData();
+export default function CardSummaryPendaftaran({ tahun_ajaran }) {
+    const { data, isLoading } = useDashboardData({ tahun_ajaran });
 
     // Mapping aman dari respon API Dasbor (terintegrasi dengan getStatsPendaftaran)
     const statsData = data?.stats_verifikasi || {
@@ -35,7 +35,7 @@ export default function CardSummaryPendaftaran() {
             value: statsData.total,
             icon: Users,
             variant: 'blue',
-            trend: '100%',
+            // trend: '100%',
             trendUp: true,
             description: data?.tahun_ajaran || 'Tahun Ajaran Aktif'
         },

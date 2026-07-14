@@ -49,11 +49,12 @@ export default function DaftarHarianTable({ selectedYear }) {
 
     // Ambil data live dari rekap chart
     const DataRekapHarian = data?.chart || []
-    
-    // Menghitung barWidth dinamis
-    const maxTotal = DataRekapHarian.length > 0 
-        ? Math.max(...DataRekapHarian.map(r => r.pendaftarL + r.pendaftarP)) 
+
+    // Menghitung barWidth dinamis (mencegah pembagian dengan nol)
+    const computedMax = DataRekapHarian.length > 0
+        ? Math.max(...DataRekapHarian.map(r => r.pendaftarL + r.pendaftarP))
         : 1
+    const maxTotal = computedMax > 0 ? computedMax : 1
 
     const totals = DataRekapHarian.reduce((acc, r) => ({
         pendaftarL: acc.pendaftarL + r.pendaftarL,

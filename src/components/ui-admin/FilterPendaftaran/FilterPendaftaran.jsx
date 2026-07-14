@@ -3,19 +3,19 @@
 import React, { useState, useEffect } from 'react'
 import {
     Search,
-    Filter,
+    // Filter,
     X,
-    Calendar,
+    // Calendar,
     ChevronDown,
-    Download,
+    // Download,
     RefreshCw,
     SlidersHorizontal
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
 
-export default function FilterPendaftaran({ 
-    onFilterChange, 
+export default function FilterPendaftaran({
+    onFilterChange,
     onExport,
     statusOptions: statusOptionsProp, // Opsi status kustom
     tahunOptions: tahunOptionsProp, // Terima dari props
@@ -42,7 +42,7 @@ export default function FilterPendaftaran({
             const activeTahun = tahunOptionsProp.find(t => t.isActive)?.value || tahunOptionsProp[0].value
             const newFilters = { ...filters, tahun_ajaran: activeTahun }
             setFilters(newFilters)
-            
+
             // Beritahu parent tentang perubahan filter awal ini
             onFilterChange?.(newFilters)
         }
@@ -162,8 +162,17 @@ export default function FilterPendaftaran({
                             </select>
                             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                         </div>
-
-                        
+                        {/* Reset Button */}
+                        {activeCount > 0 && (
+                            <button
+                                onClick={handleClear}
+                                className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:text-rose-600 transition-all"
+                                title="Reset Filter"
+                            >
+                                <RefreshCw className="w-4 h-4" />
+                                <span className="hidden lg:inline">Reset</span>
+                            </button>
+                        )}
 
                         {/* Advanced Toggle */}
                         <button
@@ -256,16 +265,7 @@ export default function FilterPendaftaran({
                                 </Button> */}
                             </div>
 
-                            {/* Reset Button */}
-                            <div className="flex justify-end mt-4 pt-4 border-t border-gray-200">
-                                <button
-                                    onClick={handleClear}
-                                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all"
-                                >
-                                    <RefreshCw className="w-4 h-4" />
-                                    Reset Semua Filter
-                                </button>
-                            </div>
+                            {/* Reset Button has been moved to top bar */}
                         </div>
                     </motion.div>
                 )}

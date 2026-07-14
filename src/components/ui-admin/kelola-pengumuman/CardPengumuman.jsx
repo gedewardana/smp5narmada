@@ -10,8 +10,8 @@ import {
 import SummaryCard from '../../reasublecomponents/SummaryCard'
 import { useDashboardData } from '@/hooks/useDashboardData'
 
-export default function CardPengumuman() {
-    const { data: dashboardData, isLoading } = useDashboardData()
+export default function CardPengumuman({ tahun_ajaran }) {
+    const { data: dashboardData, isLoading } = useDashboardData({ tahun_ajaran })
 
     // Fallback if data is not loaded yet
     const stats = dashboardData?.stats_pengumuman || {

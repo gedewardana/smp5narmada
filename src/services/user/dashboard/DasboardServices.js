@@ -6,20 +6,7 @@ import { calculateRemainingDays, formatDateRange } from "@/utils/dateUtils";
 // Mengambil data pendaftaran milik user yang login
 // ─────────────────────────────────────────────
 export async function getUserDashboardData(id_pengguna) {
-    // 1. Ambil jadwal aktif agar selalu tersedia untuk RegistrationStatus
-    let jadwalAktif = await prisma.jadwal_pmb.findFirst({
-        where: { is_active: true }
-    });
-
-    // Jika tidak ada jadwal yang berstatus is_active: true (misal karena belum dibuka atau sudah ditutup),
-    // ambil jadwal PMB yang paling terbaru agar UI bisa menampilkan "Belum Dibuka" atau "Telah Ditutup".
-    if (!jadwalAktif) {
-        jadwalAktif = await prisma.jadwal_pmb.findFirst({
-            orderBy: { id_jadwal: 'desc' }
-        });
-    }
-
-    // 2. Ambil data pendaftaran milik user ini (yang paling baru)
+    // 1. Ambil data pendaftaran milik user ini (yang paling baru) beserta jadwalnya
     const pendaftaran = await prisma.pendaftaran.findFirst({
         where: { id_pengguna: Number(id_pengguna) },
         orderBy: { id_pendaftaran: "desc" },
@@ -45,17 +32,8 @@ export async function getUserDashboardData(id_pengguna) {
                     }
                 }
             },
-            // Ambil batas waktu pendaftaran dari jadwal aktif
-            jadwal_pmb: {
-                select: {
-                    pendaftaran_mulai: true,
-                    pendaftaran_selesai: true,
-                    pengumuman:true,
-                    tahun_ajaran: true,
-                    pendaftaran_ulang_mulai: true,
-                    pendaftaran_ulang_selesai: true,
-                }
-            },
+            // Ambil seluruh data jadwal yang bersangkutan dengan pendaftaran ini
+            jadwal_pmb: true,
             // Ambil status pengumuman_hasil_seleksi jika sudah ada
             pengumuman: {
                 select: {
@@ -64,6 +42,26 @@ export async function getUserDashboardData(id_pengguna) {
             }
         }
     });
+
+    // 2. Tentukan jadwal mana yang akan menjadi acuan (jadwal_aktif)
+    let jadwalAktif;
+    if (pendaftaran && pendaftaran.jadwal_pmb) {
+        // Jika user sudah punya pendaftaran, abaikan jadwal global is_active = true.
+        // Gunakan jadwal dari pendaftaran miliknya agar dashboard sesuai dengan data historisnya.
+        jadwalAktif = pendaftaran.jadwal_pmb;
+    } else {
+        // Jika user belum mendaftar, ambil jadwal PMB yang saat ini sedang buka (is_active = true)
+        jadwalAktif = await prisma.jadwal_pmb.findFirst({
+            where: { is_active: true }
+        });
+
+        // Fallback jika tidak ada jadwal aktif sama sekali
+        if (!jadwalAktif) {
+            jadwalAktif = await prisma.jadwal_pmb.findFirst({
+                orderBy: { id_jadwal: 'desc' }
+            });
+        }
+    }
 
     // 3. Jika belum ada pendaftaran sama sekali, kembalikan data kosong / default
     if (!pendaftaran) {
@@ -87,7 +85,7 @@ export async function getUserDashboardData(id_pengguna) {
     // 4. Hitung Sisa Hari Pendaftaran (Clean Code: Move to Utils)
     const sisaHari = calculateRemainingDays(pendaftaran.jadwal_pmb?.pendaftaran_selesai);
 
-    // 4. Format enum menjadi label yang ramah untuk UI
+    // 5. Format enum menjadi label yang ramah untuk UI
     const labelStatus = {
         DRAFT: "Belum Mendaftar",
         SUBMITTED: "Terkirim",

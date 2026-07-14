@@ -102,7 +102,7 @@ export default function VerifikasiDaftarUlangPage() {
             )}
 
             {/* Komponen Dasbor Kuota Pendaftaran Ulang */}
-            <CardSumaryDaftarUlang />
+            <CardSumaryDaftarUlang tahun_ajaran={filters.tahun_ajaran} />
             
             {/* Komponen Filter Tabel */}
             <div className=''>

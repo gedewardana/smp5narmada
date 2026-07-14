@@ -218,14 +218,28 @@ export async function getAllPendaftaran({
         targetTahunAjaran = Number(targetTahunAjaran);
     }
 
-    // Default status_pendaftaran ke SUBMITTED jika tidak ada yang diberikan
-    // Ini mencegah data DRAFT bocor ke list administrasi
-    const finalStatusPendaftaran = status_pendaftaran || "SUBMITTED";
+    // Membangun kondisi status pendaftaran.
+    // Jika status_pendaftaran tidak dikirim secara spesifik, tampilkan:
+    // 1. Yang sudah SUBMITTED
+    // 2. ATAU yang kembali menjadi DRAFT karena status_verifikasi-nya PERLU_PERBAIKAN atau TOLAK
+    const statusCondition = status_pendaftaran
+        ? { status_pendaftaran }
+        : {
+            OR: [
+                { status_pendaftaran: "SUBMITTED" },
+                {
+                    status_pendaftaran: "DRAFT",
+                    status_verifikasi: {
+                        in: ["PERLU_PERBAIKAN"]
+                    }
+                }
+            ]
+        };
 
     // Build the where clause
     const where = {
         ...(targetTahunAjaran && { tahun_ajaran: targetTahunAjaran }),
-        status_pendaftaran: finalStatusPendaftaran,
+        ...statusCondition,
         ...(status_verifikasi && { status_verifikasi }),
         ...(jalur_pendaftaran && { jalur_pendaftaran }),
         // Search by name or registration number
@@ -483,6 +497,12 @@ export async function verifikasiPendaftaran(
             diverifikasi_oleh: Number(diverifikasi_oleh),
             tanggal_verifikasi: new Date(),
             diperbaharui_pada: new Date(),
+
+            // Jika perlu perbaikan, kembalikan status ke DRAFT agar terhitung di Dashboard
+            // dan siswa bisa mengedit kembali form pendaftarannya.
+            ...(status_verifikasi === "PERLU_PERBAIKAN" && {
+                status_pendaftaran: "DRAFT"
+            }),
 
             // 🚀 CLEAN CODE: Otomatis daftarkan anak ke tabel pengumuman 
             // jika statusnya dinyatakan lolos verifikasi berkas ("VERIFIKASI")

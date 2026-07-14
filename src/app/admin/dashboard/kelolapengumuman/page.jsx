@@ -109,7 +109,7 @@ export default function Page() {
 
 
             {/* Statistics Cards */}
-            <CardPengumuman />
+            <CardPengumuman tahun_ajaran={filters.tahun_ajaran} />
 
             <div className='flex justify-end pb-4'>
                 <Button

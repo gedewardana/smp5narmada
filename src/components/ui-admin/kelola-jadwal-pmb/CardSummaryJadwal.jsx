@@ -37,7 +37,7 @@ export default function CardSummaryJadwal({ summary = null, isLoading = false })
                 value: s.activeAcademicYear,
                 icon: CheckCircle2,
                 variant: 'emerald',
-                trend: s.activeAcademicYear !== '—' ? 'DIBUKA' : 'OFFLINE',
+                trend: s.activeAcademicYear !== '—' ? 'AKTIF' : 'OFFLINE',
                 description: 'Jadwal Operasional Aktif'
             },
             {

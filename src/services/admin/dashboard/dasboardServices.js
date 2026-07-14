@@ -34,7 +34,15 @@ export async function DashboardData(tahun_ajaran = null) {
 
     const baseWhere = {
         tahun_ajaran: jadwal.id_jadwal,
-        status_pendaftaran: "SUBMITTED"
+        OR: [
+            { status_pendaftaran: "SUBMITTED" },
+            {
+                status_pendaftaran: "DRAFT",
+                status_verifikasi: {
+                    in: ["PERLU_PERBAIKAN"]
+                }
+            }
+        ]
     }
 
     // 🚀 jalankan paralel (lebih cepat)
@@ -165,7 +173,15 @@ export async function getDailyChart(jadwal) {
     const data = await prisma.pendaftaran.findMany({
         where: {
             tahun_ajaran: jadwal.id_jadwal,
-            status_pendaftaran: 'SUBMITTED', // Hanya hitung yang sudah benar-benar mendaftar
+            OR: [
+                { status_pendaftaran: "SUBMITTED" },
+                {
+                    status_pendaftaran: "DRAFT",
+                    status_verifikasi: {
+                        in: ["PERLU_PERBAIKAN"]
+                    }
+                }
+            ],
             tanggal_submit: {
                 gte: start,
                 lte: end
@@ -278,7 +294,15 @@ export async function getYearlyChart() {
     const groupedData = await prisma.pendaftaran.groupBy({
         by: ['tahun_ajaran'],
         where: {
-            status_pendaftaran: 'SUBMITTED', // Hanya hitung yang sudah benar-benar mendaftar
+            OR: [
+                { status_pendaftaran: "SUBMITTED" },
+                {
+                    status_pendaftaran: "DRAFT",
+                    status_verifikasi: {
+                        in: ["PERLU_PERBAIKAN"]
+                    }
+                }
+            ]
         },
         _count: { _all: true }
     })
@@ -336,7 +360,15 @@ export async function getStatsPendaftaran(tahun_ajaran = null) {
 
     const where = {
         ...(targetTahun && { tahun_ajaran: targetTahun }),
-        status_pendaftaran: "SUBMITTED" // Hanya hitung yang sudah resmi mendaftar
+        OR: [
+            { status_pendaftaran: "SUBMITTED" }, // Hitung yang sudah resmi mendaftar
+            {
+                status_pendaftaran: "DRAFT",
+                status_verifikasi: {
+                    in: ["PERLU_PERBAIKAN"]
+                }
+            } // Hitung juga yang DRAFT tetapi sedang dalam status Perlu Perbaikan atau Tolak
+        ]
     };
 
     // Clean Code: Lakukan Grouping database 1 kali (sangat efisien & hemat resource)
