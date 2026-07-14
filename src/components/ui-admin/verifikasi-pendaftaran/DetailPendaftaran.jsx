@@ -204,10 +204,10 @@ function TabWali({ data }) {
     if (!data) return <EmptyState message="Tidak ada data wali" />
     const fields = [
         { label: 'Nama Wali', value: data.nama_wali },
-        { label: 'Tahun Lahir', value: data.tahun_lahir_wali },
-        { label: 'Pendidikan', value: data.pendidikan_wali },
-        { label: 'Pekerjaan', value: data.pekerjaan_wali },
-        { label: 'Penghasilan', value: data.penghasilan_wali },
+        { label: 'Tahun Lahir', value: data.tahun_lahir },
+        { label: 'Pendidikan', value: data.pendidikan },
+        { label: 'Pekerjaan', value: data.pekerjaan },
+        { label: 'Penghasilan', value: data.penghasilan },
     ]
     return (
         <InfoGrid>

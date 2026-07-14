@@ -9,14 +9,14 @@ export default function StepGuard({ children }) {
     const router = useRouter()
     const { user } = useAuth()
     const idPendaftaran = user?.id_pendaftaran
-    
+
     const { data: pendaftaranData, isLoading } = usePendaftaranID(idPendaftaran)
     const [isAuthorized, setIsAuthorized] = useState(false)
 
     useEffect(() => {
         // Jangan lakukan apapun jika sedang memuat data
         if (isLoading) return;
-        
+
         if (!pendaftaranData) {
             // Jika tidak ada data pendaftaran sama sekali (pendaftar baru),
             // hanya boleh akses halaman root dashboard atau langkah pertama (identitas)
@@ -27,7 +27,7 @@ export default function StepGuard({ children }) {
             }
             return;
         }
-        
+
         const steps = [
             { key: 'identitas', path: '/user/dashboard/pendaftaran/identitas' },
             { key: 'data-ayah', path: '/user/dashboard/pendaftaran/data-ayah' },
@@ -49,9 +49,9 @@ export default function StepGuard({ children }) {
             if (key === 'data-periodik') return !!pendaftaranData.periodik;
             if (key === 'data-prestasi') return (pendaftaranData.prestasi && pendaftaranData.prestasi.length > 0) || skippedSteps.includes('data-prestasi');
             if (key === 'persyaratan') {
-                const mandatoryFiles = ['AKTA', 'KK', 'SKL', 'KTP_AYAH', 'KTP_IBU'];
+                const mandatoryFiles = ['AKTA', 'KK', 'SKL'];
                 const uploadedFiles = pendaftaranData.berkas_persyaratan || [];
-                return mandatoryFiles.every(type => 
+                return mandatoryFiles.every(type =>
                     uploadedFiles.some(file => file.jenis_berkas === type && file.status_upload === 'UPLOADED')
                 );
             }
@@ -68,7 +68,7 @@ export default function StepGuard({ children }) {
                 break; // Berhenti mengecek jika ada rantai yang terputus
             }
         }
-        
+
         // Batasi nilai tertinggi (jangan melebihi jumlah total array)
         if (highestAllowedIndex >= steps.length) {
             highestAllowedIndex = steps.length - 1;
@@ -87,7 +87,7 @@ export default function StepGuard({ children }) {
         if (currentStepIndex > highestAllowedIndex) {
             setIsAuthorized(false);
             console.warn('Akses ditolak: Anda belum menyelesaikan form sebelumnya.');
-            
+
             // Arahkan ke rute terakhir yang belum selesai, bukan root
             const targetPath = steps[highestAllowedIndex]?.path || '/user/dashboard/pendaftaran';
             router.replace(targetPath);

@@ -85,13 +85,13 @@ export default function PendaftaranPage() {
     // Ambil nilai dari data API
     const rawStatusPendaftaran = dashboardData?.raw?.status_pendaftaran;
     const rawStatusVerifikasi = dashboardData?.raw?.status_verifikasi;
-    
+
     // Clean Code: Logika penyesuaian untuk menampilkan komponen StatusVerifikasi.
     // Tampilkan StatusVerifikasi JIKA:
     // 1. User sudah melakukan SUBMIT (menunggu verifikasi atau sudah diverifikasi)
     // 2. ATAU user dikembalikan ke status DRAFT oleh panitia karena PERLU_PERBAIKAN / TOLAK
-    const showVerifikasiStatus = 
-        rawStatusPendaftaran === 'SUBMITTED' || 
+    const showVerifikasiStatus =
+        rawStatusPendaftaran === 'SUBMITTED' ||
         (rawStatusPendaftaran === 'DRAFT' && ['PERLU_PERBAIKAN', 'TOLAK'].includes(rawStatusVerifikasi));
 
     const statusVerifikasi = rawStatusVerifikasi ?? 'MENUNGGU_VERIFIKASI'
