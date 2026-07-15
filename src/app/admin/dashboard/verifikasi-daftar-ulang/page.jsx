@@ -40,7 +40,7 @@ export default function VerifikasiDaftarUlangPage() {
     const { data: dataDaftarUlang, isLoading, pagination, mutate } = useDaftarUlang(filters)
 
     // GET Request: Untuk sinkronisasi data statistik Dashboard
-    const { mutate: mutateDashboard } = useDashboardData()
+    const { mutate: mutateDashboard } = useDashboardData({ tahun_ajaran: filters.tahun_ajaran })
 
     // PUT Request: Fungsi injeksi perbaruan ke Database
     const { updateStatus, isUpdating } = useUpdateDaftarUlang()

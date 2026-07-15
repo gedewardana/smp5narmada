@@ -50,7 +50,7 @@ export default function Page() {
     const { data: dataPengumuman, isLoading, pagination, mutate } = usePengumuman(filters)
 
     // Execute SWR Data Fetching for Dashboard Sync
-    const { mutate: mutateDashboard } = useDashboardData()
+    const { mutate: mutateDashboard } = useDashboardData({ tahun_ajaran: filters.tahun_ajaran })
 
     // Execute SWR Mutation (Update API)
     const { updateSeleksi, updateSeleksiMassal, isUpdating } = useUpdateSeleksi()

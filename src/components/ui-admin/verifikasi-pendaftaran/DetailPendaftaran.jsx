@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { 
-    Eye, 
-    Download, 
-    FileText, 
-    Award, 
+import {
+    Eye,
+    Download,
+    FileText,
+    Award,
     Maximize2,
     User,
     Hash,

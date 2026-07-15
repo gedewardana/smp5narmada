@@ -15,7 +15,7 @@ const fetcher = async (url) => {
 export function useDashboardData(filters = {}) {
     // Membangun URL dengan query string dari objek filters
     const searchParams = new URLSearchParams()
-    
+
     // Hanya memuat filter yang memiliki nilai (tidak undefined/null)
     Object.entries(filters).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {

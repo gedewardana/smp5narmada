@@ -32,7 +32,7 @@ function KelolaPendaftaranContent() {
     const { data: pendaftaranData, isLoading, pagination, mutate } = usePendaftaran(filters)
 
     // Mutate untuk CardSummaryPendaftaran (useDashboardData)
-    const { mutate: mutateDashboard } = useDashboardData()
+    const { mutate: mutateDashboard } = useDashboardData({ tahun_ajaran: filters.tahun_ajaran })
 
     // Ekstrak jalur unik dari data yang sudah difetch
     const uniqueJalur = Array.from(new Set(pendaftaranData?.map(p => p.jalur_pendaftaran).filter(Boolean)))

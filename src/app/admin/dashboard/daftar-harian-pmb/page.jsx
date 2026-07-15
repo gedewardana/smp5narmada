@@ -10,12 +10,11 @@ import PrintRekap from '@/components/ui-admin/rekapandata/PrinRekap'
 import { downloadPDF } from '@/utils/downloadPDF'
 import { downloadExcel } from '@/utils/downloadExcel'
 import { useJadwal } from '@/hooks/useJadwal'
-
 import "@/components/ui-admin/rekapandata/Print.css"
 
 function page() {
     const componentRef = useRef()
-    
+
     // 1. State filter
     const [selectedYear, setSelectedYear] = useState("")
 
@@ -51,7 +50,7 @@ function page() {
         downloadPDF(componentRef, `Laporan-Harian-PMB-${new Date().toISOString().split('T')[0]}.pdf`)
     }
 
-     const handleExportExcel = () => {
+    const handleExportExcel = () => {
         downloadExcel(componentRef, `Laporan-Harian-PMB-${new Date().toISOString().split('T')[0]}.xlsx`)
     }
 
@@ -65,12 +64,12 @@ function page() {
 
 
             <CardDaftarHarian selectedYear={selectedYear} />
-            <FilterHarianPMB 
+            <FilterHarianPMB
                 tahunOptions={tahunOptions}
                 selectedYear={selectedYear}
                 onYearChange={setSelectedYear}
                 onReset={handleReset}
-                onPrint={handlePrint} 
+                onPrint={handlePrint}
                 onPDF={handleDownloadPDF}
                 onExcel={handleExportExcel}
             />
@@ -78,15 +77,15 @@ function page() {
 
 
             {/* PrintRekap */}
-                <div ref={componentRef} className="print-container  print-only">
-                   <PrintRekap selectedYear={selectedYear}/>
-                </div>
+            <div ref={componentRef} className="print-container  print-only">
+                <PrintRekap selectedYear={selectedYear} />
+            </div>
 
 
             {/* <Wrapper> */}
-                <div >
-                    <DaftarHarianTable selectedYear={selectedYear} />
-                </div>
+            <div >
+                <DaftarHarianTable selectedYear={selectedYear} />
+            </div>
             {/* </Wrapper> */}
 
         </div>
