@@ -106,7 +106,7 @@ function HasilCard({ pengumuman, data = {}, tahunAjaran = '-' }) {
 
                 <div className="max-w-3xl mx-auto text-center mb-10">
                     <p className="text-base text-gray-600 leading-relaxed">
-                        Berdasarkan hasil seleksi administrasi, akademis, dan rapat pleno Panitia SPMB Tahun Pelajaran <strong>{tahunAjaran}</strong>, dengan ini menyatakan bahwa:
+                        Berdasarkan hasil seleksi administrasi, akademis, dan rapat Panitia SPMB Tahun Pelajaran <strong>{tahunAjaran}</strong>, dengan ini menyatakan bahwa:
                     </p>
                 </div>
 
