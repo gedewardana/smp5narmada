@@ -260,7 +260,13 @@ export async function getDailyChart(jadwal) {
             ...existing,
             date: existing.date || getLocalDayMonth(currentDay),
             fullDate: key,
-            tgl: currentDay.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+            tgl: new Intl.DateTimeFormat('id-ID', { 
+                timeZone: "Asia/Makassar", 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            }).format(currentDay),
             pendaftarL: existing.L,
             pendaftarP: existing.P
         };
