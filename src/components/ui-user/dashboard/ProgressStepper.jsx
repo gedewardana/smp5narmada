@@ -72,8 +72,11 @@ export default function TimelinePendaftaran() {
 
         const jadwalStatus = data?.jadwal_aktif?.status_jadwal
 
-        // Jika belum submit data (masih kosongan/Draft), terapkan blokir jadwal jika ada
+        // Jika belum submit data (masih kosongan/Draft) atau dikembalikan ke Draft karena perlu perbaikan
         if (!raw || raw.status_pendaftaran === 'DRAFT') {
+            if (raw && raw.status_verifikasi === 'PERLU_PERBAIKAN') {
+                return { currentStep: 1, statusOverride: 'perlu_perbaikan' }
+            }
             if (jadwalStatus === 'BELUM_DIBUKA') return { currentStep: 1, statusOverride: 'belum_dibuka' }
             if (jadwalStatus === 'DITUTUP') return { currentStep: 1, statusOverride: 'ditutup' }
             return { currentStep: 1, statusOverride: 'active' }
