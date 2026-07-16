@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { createNotifikasi } from "@/services/notifikasi/notifikasiServices";
+import { sendNotificationEmail } from "@/lib/mailer";
 // import { getLocalYMD } from "@/utils/timezoneHelper";
 // Helper: generate nomor pendaftaran
 // Format: REG-{TAHUN}-{ID_JADWAL padded 2 digit}-{ID_PENDAFTARAN padded 4 digit}
@@ -472,6 +473,11 @@ export async function verifikasiPendaftaran(
 ) {
     const pendaftaran = await prisma.pendaftaran.findUnique({
         where: { id_pendaftaran: Number(id_pendaftaran) },
+        include: {
+            pengguna_pendaftaran_id_penggunaTopengguna: {
+                select: { email: true, nama_lengkap: true }
+            }
+        }
     });
 
     if (!pendaftaran) {
@@ -549,6 +555,12 @@ export async function verifikasiPendaftaran(
             reference_type: "PENDAFTARAN",
             tautan_aksi: "/user/dashboard/pendaftaran"
         });
+
+        // Kirim email notifikasi ke calon siswa
+        const userEmail = pendaftaran.pengguna_pendaftaran_id_penggunaTopengguna?.email;
+        if (userEmail) {
+            await sendNotificationEmail(userEmail, judul, pesan);
+        }
     } catch (err) {
         console.error("Gagal mengirim notif ke user", err);
     }
