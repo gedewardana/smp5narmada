@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { createNotifikasi } from "../notifikasi/notifikasiServices";
+import { sendNotificationEmail } from "@/lib/mailer";
 
 
 
@@ -218,7 +219,12 @@ export async function updatePengumuman(
         },
         include: {
             pendaftaran: {
-                select: { id_pengguna: true }
+                select: {
+                    id_pengguna: true,
+                    pengguna_pendaftaran_id_penggunaTopengguna: {
+                        select: { email: true }
+                    }
+                }
             }
         }
     });
@@ -243,6 +249,16 @@ export async function updatePengumuman(
                 reference_type: "PENGUMUMAN",
                 tautan_aksi: "/user/dashboard/pengumuman"
             });
+
+            // Kirim email notifikasi ke calon siswa
+            const userEmail = updated.pendaftaran.pengguna_pendaftaran_id_penggunaTopengguna?.email;
+            if (userEmail) {
+                console.log(`\n[EMAIL] Mencoba mengirim email pengumuman ke: ${userEmail}...`);
+                await sendNotificationEmail(userEmail, judul, pesan);
+                console.log(`[EMAIL] Sukses mengirim email ke: ${userEmail}\n`);
+            } else {
+                console.log(`\n[EMAIL] Batal mengirim email: Data email kosong.\n`);
+            }
         } catch (notifError) {
             console.error("Gagal mengirim notifikasi pengumuman:", notifError);
             // Jangan throw error di sini agar update utama tetap sukses
@@ -291,7 +307,14 @@ export async function updatePengumumanMassal(
                 })
             },
             include: {
-                pendaftaran: { select: { id_pengguna: true } }
+                pendaftaran: {
+                    select: {
+                        id_pengguna: true,
+                        pengguna_pendaftaran_id_penggunaTopengguna: {
+                            select: { email: true }
+                        }
+                    }
+                }
             }
         });
     });
@@ -308,9 +331,9 @@ export async function updatePengumumanMassal(
                 ? "Selamat! Anda dinyatakan DITERIMA di sekolah kami. Silakan segera lakukan Daftar Ulang."
                 : "Mohon maaf, Anda dinyatakan TIDAK DITERIMA pada seleksi kali ini. Tetap semangat!";
 
-            const notifPromises = results.map(updated => {
+            const notifPromises = results.map(async (updated) => {
                 if (updated.pendaftaran?.id_pengguna) {
-                    return createNotifikasi({
+                    await createNotifikasi({
                         id_pengguna: updated.pendaftaran.id_pengguna,
                         judul,
                         pesan,
@@ -319,8 +342,17 @@ export async function updatePengumumanMassal(
                         reference_type: "PENGUMUMAN",
                         tautan_aksi: "/user/dashboard/pengumuman"
                     });
+
+                    // Kirim email notifikasi ke calon siswa
+                    const userEmail = updated.pendaftaran.pengguna_pendaftaran_id_penggunaTopengguna?.email;
+                    if (userEmail) {
+                        console.log(`\n[EMAIL] Mencoba mengirim email pengumuman massal ke: ${userEmail}...`);
+                        await sendNotificationEmail(userEmail, judul, pesan);
+                        console.log(`[EMAIL] Sukses mengirim email ke: ${userEmail}\n`);
+                    } else {
+                        console.log(`\n[EMAIL] Batal mengirim email: Data email kosong.\n`);
+                    }
                 }
-                return Promise.resolve();
             });
 
             await Promise.all(notifPromises);

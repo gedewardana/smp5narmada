@@ -109,7 +109,10 @@ export async function submitPendaftaran(id_pendaftaran) {
         include: {
             berkas_persyaratan: true,
             identitas_peserta_didik: true,
-            jadwal_pmb: true
+            jadwal_pmb: true,
+            pengguna_pendaftaran_id_penggunaTopengguna: {
+                select: { email: true, nama_lengkap: true }
+            }
         },
     });
 
@@ -148,24 +151,43 @@ export async function submitPendaftaran(id_pendaftaran) {
         },
     });
 
-    // 3. Kirim Notifikasi ke SEMUA ADMIN
+    // 3. Kirim Notifikasi ke SEMUA ADMIN & Email ke Calon Siswa
     try {
         const admins = await prisma.user.findMany({ where: { role: 'ADMIN' } });
         const namaSiswa = pendaftaran.identitas_peserta_didik?.nama_lengkap || 'Siswa Baru';
 
+        const isResubmit = pendaftaran.status_verifikasi === 'PERLU_PERBAIKAN';
+        const judulNotifAdmin = isResubmit ? "Perbaikan Pendaftaran Masuk" : "Pendaftaran Baru Masuk";
+        const pesanNotifAdmin = isResubmit
+            ? `Calon Siswa: ${namaSiswa} - ${nomorPendaftaran} telah mengirimkan perbaikan berkas. Segera verifikasi ulang.`
+            : `Calon Siswa: ${namaSiswa} - ${nomorPendaftaran}. Segera verifikasi berkas.`;
+
         await Promise.all(admins.map(admin =>
             createNotifikasi({
                 id_pengguna: admin.id_pengguna,
-                judul: "Pendaftaran Baru Masuk",
-                pesan: `Calon Siswa: ${namaSiswa} - ${nomorPendaftaran}. Segera verifikasi berkas.`,
+                judul: judulNotifAdmin,
+                pesan: pesanNotifAdmin,
                 kategori: "INFO",
                 reference_id: pendaftaran.id_pendaftaran,
                 reference_type: "PENDAFTARAN",
                 tautan_aksi: `/admin/dashboard/verifikasi-pendaftaran`
             })
         ));
+
+        // Kirim email notifikasi ke calon siswa bahwa pendaftaran berhasil disubmit
+        const userEmail = pendaftaran.pengguna_pendaftaran_id_penggunaTopengguna?.email;
+        if (userEmail) {
+            const judulEmail = isResubmit ? "Pendaftaran Berhasil Disubmit Ulang" : "Pendaftaran Berhasil Disubmit";
+            const pesanEmail = isResubmit
+                ? `Halo ${namaSiswa},\n\nPerbaikan data pendaftaran Anda dengan nomor registrasi ${nomorPendaftaran} telah berhasil disubmit ulang. Saat ini data Anda sedang menunggu proses verifikasi kembali oleh panitia.\n\nTerima kasih.`
+                : `Halo ${namaSiswa},\n\nPendaftaran Anda dengan nomor registrasi ${nomorPendaftaran} telah berhasil disubmit. Saat ini data Anda sedang menunggu proses verifikasi oleh panitia.\n\nTerima kasih.`;
+
+            console.log(`\n[EMAIL] Mencoba mengirim email submit pendaftaran ke: ${userEmail}...`);
+            await sendNotificationEmail(userEmail, judulEmail, pesanEmail);
+            console.log(`[EMAIL] Sukses mengirim email ke: ${userEmail}\n`);
+        }
     } catch (err) {
-        console.error("Gagal mengirim notif ke admin", err);
+        console.error("Gagal mengirim notif ke admin atau email ke user", err);
     }
 
     return updated;
@@ -559,10 +581,14 @@ export async function verifikasiPendaftaran(
         // Kirim email notifikasi ke calon siswa
         const userEmail = pendaftaran.pengguna_pendaftaran_id_penggunaTopengguna?.email;
         if (userEmail) {
+            console.log(`\n[EMAIL] Mencoba mengirim email notifikasi ke: ${userEmail}...`);
             await sendNotificationEmail(userEmail, judul, pesan);
+            console.log(`[EMAIL] Sukses mengirim email ke: ${userEmail}\n`);
+        } else {
+            console.log(`\n[EMAIL] Batal mengirim email: Data email pendaftar kosong.\n`);
         }
     } catch (err) {
-        console.error("Gagal mengirim notif ke user", err);
+        console.error("\n[EMAIL ERROR] Gagal mengirim notif ke user:", err, "\n");
     }
 
     return updated;
