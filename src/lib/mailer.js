@@ -39,8 +39,10 @@ export const sendResetPasswordEmail = async (email, token) => {
 };
 
 export const sendNotificationEmail = async (email, subject, message) => {
+    const dashboardUrl = process.env.NEXTAUTH_URL || 'https://smp5narmada.vercel.app';
+
     const mailOptions = {
-        from: `"Panitia PPDB SMP 5 Narmada" <${process.env.SMTP_USER}>`,
+        from: `"Panitia PMB SMP 5 Narmada" <${process.env.SMTP_USER}>`,
         to: email,
         subject: subject,
         html: `
@@ -48,9 +50,12 @@ export const sendNotificationEmail = async (email, subject, message) => {
                 <h2 style="color: #2563eb; text-align: center;">Informasi Pendaftaran</h2>
                 <p>Halo,</p>
                 <p>${message}</p>
-                <p>Silakan login ke dashboard aplikasi untuk melihat detail lebih lanjut.</p>
+                <p>Silakan login ke dashboard aplikasi untuk melihat detail lebih lanjut:</p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${dashboardUrl}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Login ke Dashboard</a>
+                </div>
                 <p>Terima kasih,</p>
-                <p><strong>Panitia PPDB SMP 5 Narmada</strong></p>
+                <p><strong>Panitia PMB SMP 5 Narmada</strong></p>
                 <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
                 <p style="font-size: 12px; color: #6b7280; text-align: center;">
                     SPMB Negeri 5 Narmada &copy; ${new Date().getFullYear()}

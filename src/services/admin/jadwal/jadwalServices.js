@@ -207,12 +207,14 @@ export function getJadwalSummary(data = []) {
     let isWarning = false;
 
     if (activeJadwal && activeJadwal.pendaftaran_selesai) {
-        // Ambil string 'YYYY-MM-DD' memastikan tidak ada salah timezone dari database
+        // Ambil string 'YYYY-MM-DD' berdasarkan timezone lokal (WITA)
         const endDateStr = getLocalYMD(activeJadwal.pendaftaran_selesai);
+        const todayStr = getLocalYMD(new Date());
 
-        const endDay = new Date(`${endDateStr}T00:00:00`); // Midnight waktu lokal
-        const nowDay = new Date();
-        nowDay.setHours(0, 0, 0, 0); // Midnight waktu lokal hari ini
+        // Parse dengan "Z" agar membandingkan tepat di jam 00:00 UTC 
+        // tanpa terpengaruh jam dari server (hanya membandingkan tanggalnya saja)
+        const endDay = new Date(`${endDateStr}T00:00:00Z`);
+        const nowDay = new Date(`${todayStr}T00:00:00Z`);
 
         const diffTime = endDay.getTime() - nowDay.getTime();
         const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
