@@ -69,11 +69,10 @@ export function FormInput({
         if (error && onErrorClear) onErrorClear(name)
     }
     const commonLabelClass = "block text-[11px] font-extrabold text-gray-500 mb-1.5 uppercase tracking-widest flex items-center gap-1 ml-1"
-    const inputBaseClass = `w-full transition-all duration-300 focus:ring-4 rounded-lg border-gray-200 bg-white text-sm shadow-sm h-11 ${
-        error 
-        ? 'border-red-400 focus:border-red-500 focus:ring-red-100 hover:border-red-500' 
+    const inputBaseClass = `w-full transition-all duration-300 focus:ring-4 rounded-lg border-gray-200 bg-white text-sm shadow-sm h-11 ${error
+        ? 'border-red-400 focus:border-red-500 focus:ring-red-100 hover:border-red-500'
         : 'focus:ring-blue-100 focus:border-blue-600 hover:border-blue-400'
-    }`
+        }`
 
     const labelElement = (
         <label className={commonLabelClass}>
@@ -93,19 +92,19 @@ export function FormInput({
                     )}
                     <select
                         name={name}
-                       // value={value}
+                        // value={value}
                         value={value ?? ''}
                         onChange={handleChange}
                         className={`${inputBaseClass} appearance-none cursor-pointer pr-10 ${Icon ? 'pl-11' : 'px-4'}`}
                         required={required}
                         disabled={disabled}
                     >
-                        <option value="">Pilih {label}</option>
+                        <option value="" disabled>Pilih {label}</option>
                         {options.map((opt, idx) => {
                             const isObj = typeof opt === 'object' && opt !== null;
                             const label = isObj ? opt.label : opt;
                             const val = isObj ? opt.value : opt;
-                            
+
                             return (
                                 <option key={idx} value={val}>
                                     {String(label || 'Unknown')}
